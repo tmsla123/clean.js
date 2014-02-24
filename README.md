@@ -4,7 +4,7 @@ clean.js
 
 - 쉽고 재밌는 개발을 하자!를 원칙으로 하고있어요!
 - 문서가 필요없이 소스만 봐도 뭔지 아는 그정도로 쉬운 코드 작성을 목표로 하고있어요!
-- clean.js는 누구에게나 열려있어요. clean.js 유저 그룹(https://www.facebook.com/groups/cleanjs)에서 커미터 신청을 부탁드립니다 :)
+- clean.js는 누구에게나 열려있어요. clean.js 유저 그룹( https://www.facebook.com/groups/cleanjs )에서 커미터 신청을 부탁드립니다 :)
 
 이것만은 지켜주세요!
 ----
