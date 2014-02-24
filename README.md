@@ -2,7 +2,7 @@ clean.js
 ========
 깨끗하게 맑게 자신있게~! 누구나 읽기 쉽도록 깔끔하게 코드를 작성해봅시다. JavaScript 공부 하시는 분들께도 도움이 되는 프로젝트를 만들고 싶어요.
 
-- clean.js는 누구에게나 열려있어요. clean.js 유저 그룹(https://www.facebook.com/groups/cleanjs)에서 커미터 신청을 부탁드립니다 :)
+- clean.js는 누구에게나 열려있어요. clean.js 유저 그룹( https://www.facebook.com/groups/cleanjs )에서 커미터 신청을 부탁드립니다 :)
 
 원칙
 ----
