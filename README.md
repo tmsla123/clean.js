@@ -1,4 +1,4 @@
-![ScreenShot](https://raw.github.com/cleanjs/clean.js/master/clean.js.gif) (로고에는 열정을 담았습니다.)
+clean.js
 ========
 깨끗하게 맑게 자신있게~! 누구나 읽기 쉽도록 깔끔하게 코드를 작성해봅시다. JavaScript 공부 하시는 분들께도 도움이 되는 프로젝트를 만들고 싶어요.
 
