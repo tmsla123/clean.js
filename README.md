@@ -43,6 +43,7 @@ clean.js의 패키지 구조는 다음과 같애요.
 - @dkfdnd (알웅ㅋㅋㅋㅋ)
 - @rotoshine
 - @hikaMaeng
+- @JaehyunAhn
 
 타임라인
 ---
@@ -51,3 +52,5 @@ clean.js의 패키지 구조는 다음과 같애요.
 라이센스
 ----
 MIT 라이센스를 따라요.
+
+- 이 문서도 수정 가능해요.
