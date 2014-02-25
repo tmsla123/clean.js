@@ -1,17 +1,14 @@
-// 코어가 있어야될거같애서 만들었어요.
-// 일단 패키지 정보를 담고있고요,
-// 전체적으로 글로벌하게 쓰이는 기능들은 여기다 넣을라구요.
-// 근데 마땅히 떠오르는게 없네요.
+// 요기는 패키지 정보를 담고있어요.
 // 헤헤
 
-console.log('안냐세영')
-
-clean = {
+// 패키지 정보에요!
+(typeof global === 'undefined' ? window : global).clean = {
 	array : {},
 	object : {},
 	date : {},
 	string : {},
-	number : {}
+	is : {},
+	to : {}
 };
 
 // 배열의 요소를 각각 처리한다!
@@ -55,5 +52,22 @@ clean.object.each = function(object, callback) {
 			callback(object[name]);
 		}
 	}
+};
+
+// 문자열에서 특정 문자열을 모두 변경한다!
+clean.string.replaceAll = function(target, from, to) {
+
+};
+
+// 숫자로 바꾼다!
+clean.to.integer = function() {
+	//TODO: 해야행 ㅜㅜ
+};
+
+// 문자열로 바꾼다!
+clean.to.string = function(thing) {
+	//REQUIRED: thing
+
+	return String(thing);
 };
 
