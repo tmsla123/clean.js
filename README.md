@@ -8,7 +8,7 @@ clean.js
 
 이것만은 지켜주세요!
 ----
-- 더글라스 크락포드 옹의 자바스크립트 핵심 가이드를 따릅시다!
+- 더글라스 크락포드 옹의 자바스크립트 핵심 가이드를 따릅시다!<br>
 ![ScreenShot](https://raw.github.com/cleanjs/clean.js/master/DouglasCrockford.jpg)
 - 부담없이 막 올려주세요! 주석이라도 좋으니 1일 1커밋을 해봅시다!
 - 주석은 백만줄이라도 좋으니 팍팍 달아주세요. 상세하게 설명할수록 좋아요.
