@@ -8,5 +8,6 @@
 	date : {},
 	string : {},
 	is : {},
-	to : {}
+	to : {},
+	valid : {}
 };
