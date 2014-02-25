@@ -2,7 +2,7 @@
 // 헤헤
 
 // 패키지 정보에요!
-(typeof global === 'undefined' ? window : global).clean = {
+( typeof global === 'undefined' ? window : global).clean = {
 	array : {},
 	object : {},
 	date : {},
@@ -55,8 +55,13 @@ clean.object.each = function(object, callback) {
 };
 
 // 문자열에서 특정 문자열을 모두 변경한다!
-clean.string.replaceAll = function(target, from, to) {
+clean.string.replaceAll = function(target, search, replace) {
+	//REQUIRED: target: 바꿀 대상의 문자열입니다!
+	//REQUIRED: search: 바꿀 문자열입니다!
+	//REQUIRED: replace: 바뀔 문자열입니다!
 
+	// search를 찾아가지고 쪼갠뒤에 replace로 바꿔서 붙힙니다.
+	return target.split(search).join(replace);
 };
 
 // 숫자로 바꾼다!
