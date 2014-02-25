@@ -33,6 +33,16 @@ clean.date.now = function() {
 	return new Date();
 };
 
+// 숫잔가?
+clean.is.integer = function() {
+	//TODO: 해야행 ㅜㅜ
+};
+
+// 문자열인가?
+clean.is.string = function() {
+	//TODO: 해야행 ㅜㅜ
+};
+
 // 객체의 프로퍼티를 각각 처리한다!
 clean.object.each = function(object, callback) {
 	//REQUIRED: object
@@ -52,6 +62,26 @@ clean.object.each = function(object, callback) {
 			callback(object[name]);
 		}
 	}
+};
+
+// 문자열에서 해당문자가 포함되었는지 확인합니다
+clean.string.contains = function(target, search) {
+	//REQUIRED: target: 대상문자열입니다!
+	//REQUIRED: search: 확인할 문자열입니다!
+
+	// search를 찾아가지고 인덱스를 확인합니다!
+	return target.indexOf(search) >= 0;
+};
+
+
+// 문자열에서 특정 문자열을 모두 제거한다!
+clean.string.removeAll = function(target, search) {
+	//REQUIRED: target: 대상 문자열입니다!
+	//REQUIRED: search: 제거할 문자열입니다!
+
+	// search를 찾아가지고 빈 문자열로 교체합니다.
+	// 이러면 모두 제거가 되겠죵?
+	return clean.string.replaceAll(target, search, '');
 };
 
 // 문자열에서 특정 문자열을 모두 변경한다!
