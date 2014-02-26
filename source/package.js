@@ -10,5 +10,6 @@
 	is : {},
 	to : {},
 	valid : {},
-	random : {}
+	random : {},
+	dom : {}
 };
