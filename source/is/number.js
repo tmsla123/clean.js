@@ -9,3 +9,16 @@ clean.is.number = function(target) {
 	// 제길.. 위 코드보다 우리껄 쓰는게 좋자나???
 	return (clean.to.number(target) === target);
 };
+/*
+혹시나 몰라서; 또다른 방법으로;;
+clean.is.number = function(target) {
+
+	for(i=0; i<target.length; i++) {
+		if(!(target.charCodeAt(i) > 47 && target.charCodeAt(i) < 58)) {
+			return false;
+		}
+	}
+
+	return true;
+}
+*/
