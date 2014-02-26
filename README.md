@@ -40,7 +40,7 @@ var afterText = ' 처리하는 기능이 있어요'
 테스트 방법
 ---
 1. source에 코드를 작성해요!
-2. root 폴더에서 node build를 입력해요! 그럼 clean.js가 새로 만들어집니다!
+2. root 폴더에서 node build를 입력해요! 그럼 clean.js가 새로 만들어집니다!<br>(참고로 nodemon이 설치되어 있으면 nodemon build 이렇게 해두면 source 수정할 때마다 자동으로 빌드함!)
 3. test 폴더에 테스트용 html파일을 아무렇게나 작성하여 실행합니다!!
 
 커미터
