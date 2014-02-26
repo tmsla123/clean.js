@@ -59,6 +59,7 @@ var afterText = ' 처리하는 기능이 있어요'
 - @shulemil
 - @tipjs
 - @ksbang39
+- @rangken
 
 타임라인
 ---
