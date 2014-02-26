@@ -67,7 +67,7 @@ var afterText = ' 처리하는 기능이 있어요'
 - @Asukazsoul
 - @ibare
 - @walpokes
-- @tedileader
+- @tedileader(문서만 주구장창 만들놈)
 - @hanmomhanda
 - @pmpmopm1
 
