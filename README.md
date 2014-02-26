@@ -61,6 +61,10 @@ var afterText = ' 처리하는 기능이 있어요'
 - @ksbang39
 - @rangken
 - @Asukazsoul
+- @ibare
+- @walpokes
+- @tedileader
+- @hanmomhanda
 
 타임라인
 ---
