@@ -44,7 +44,7 @@ clean.js의 패키지 구조는 다음과 같애요.
 ---
 - @hanul
 - @hj8902
-- @dkfdnd (알웅ㅋㅋㅋㅋ)
+- @dkfdnd
 - @rotoshine
 - @hikaMaeng
 - @JaehyunAhn
