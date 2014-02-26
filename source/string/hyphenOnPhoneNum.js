@@ -1,7 +1,6 @@
 //전화번호에 하이픈을 넣어서 반환한다
-clean.String.hyphenOnPhoneNum = function(target) {
-	
-	
+clean.string.hyphenOnPhoneNum = function(target) {
+
 	var RegNotNum = /[^0-9]/g;
 	var RegPhonNum = "";
 	var DataForm = "";
@@ -37,7 +36,6 @@ clean.String.hyphenOnPhoneNum = function(target) {
 	while (RegPhonNum.test(str)) {
 		str = str.replace(RegPhonNum, DataForm);
 	}
-	
+
 	return str;
-	
-}
+};
