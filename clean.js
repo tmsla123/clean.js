@@ -30,7 +30,6 @@ clean.array.each = function(array, callback) {
 };
 
 // 날자를 읽기 편하게 보여줘용(YYYY-mm-dd HH:ii:ss)
-// 종속성있어요 clean.date.leadingZeros 가 종속성이 붙어요~
 clean.date.getTimeStamp = function() {
 	
 	//요 내부꺼는 좀더 간단하게 할수있음 알려주세용.. 무식하게 돌리는거라.... 따로 함수로 빼긴 그렇고...
@@ -63,7 +62,6 @@ clean.date.getTimeStamp = function() {
 
 	return result;
 }
-
 // 지금이 언제냐?
 clean.date.now = function() {
 	// 지금은 지금이다!
@@ -74,30 +72,26 @@ clean.date.now = function() {
  * 입력된 값이 정해진 문자열로만 이루어졌는지 확인
  * @param target   확인할 문자열
  * @param search   제한할 문자열들
+ * @param allowEmptyString true 일 경우 빈 문자열도 맞는걸로
  * @returns {Boolean}
  */
-clean.is.containsCharsOnly = function(target, search) {
+clean.is.containsCharsOnly = function(target, search, allowEmptyString) {
 	//REQUIRED: target
 	//REQUIRED: search
+	//OPTIONAL: allowEmptyString
 
 	var
-	// index~~~!!
-	i;
-
-	for ( i = 0; i < target.length; i += 1) {
-		if (search.indexOf(target.charAt(i)) === -1) {
-			return false;
-		}
-	}
-
-	return true;
+	// 정규표현식을 사용합시다!
+	r = new RegExp("^[" + search + "]"+(allowEmptyString?"*":"+")+"$");
+	return r.test(target);
 };
 
 // 정수인가?
 clean.is.integer = function(target) {
 	//REQUIRED: target: 정수인지 확인할 대상
 
-	return (clean.to.integer(target)===target);
+	// target을 숫자로 바꾸고 원래 대상이랑 완줘니 똑같은지 보면 되겠습니당.
+	return (clean.to.integer(target) === target);
 };
 
 // 숫잔가?
@@ -106,7 +100,10 @@ clean.is.number = function(target) {
 
 	// float으로 바꾸었을때, 숫자가 아닌것이 아니고,
 	// isFinite(유한 수)가 통과되면 이것은 숫자다.
-	return isNaN(parseFloat(target)) === false && isFinite(target) === true;
+	//return isNaN(parseFloat(target)) === false && isFinite(target) === true;
+	
+	// 제길.. 위 코드보다 우리껄 쓰는게 좋자나???
+	return (clean.to.number(target) === target);
 };
 
 // 문자열인가?
@@ -284,11 +281,20 @@ clean.string.trim = (function(){
 
 // 정수로 바꾼다!
 clean.to.integer = function(thing) {
-	//REQUIRED: thing: 어떤 것
-
+	//REQUIRED: thing: 변경할 대상
+	
 	// 헐.. 무쟈게 심플하네요.
 	//TODO: 설명을 부탁드립니다!
 	return thing | 0;
+};
+
+// 숫자로 바꾼다!
+clean.to.number = function(thing) {
+	//REQUIRED: thing: 변경할 대상
+
+	// 이거 말고 더 조은 수단이 있나요? 궁금...
+	// 10진수 실수로 파싱합니다.
+	return parseFloat(thing, 10);
 };
 
 // 문자열로 바꾼다!
