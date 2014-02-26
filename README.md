@@ -48,6 +48,8 @@ clean.js의 패키지 구조는 다음과 같애요.
 - @rotoshine
 - @hikaMaeng
 - @JaehyunAhn
+- @composite
+- @lazygyu
 
 타임라인
 ---
