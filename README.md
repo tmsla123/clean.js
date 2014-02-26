@@ -52,11 +52,15 @@ clean.js의 패키지 구조는 다음과 같애요.
 - @lazygyu
 - @rabter
 - @devyrlee
+- @erivery2
+- @shulemil
+- @tipjs
 
 타임라인
 ---
 - 2014-02-25: 프로젝트 생성
 - 2014-02-26: devyrlee님 로고 제작해주심
+- 2014-02-26: http://cleanjs.org 오픈
 
 라이센스
 ----
