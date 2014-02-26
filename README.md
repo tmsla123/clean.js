@@ -75,6 +75,7 @@ var afterText = ' 처리하는 기능이 있어요'
 라이센스
 ----
 MIT 라이센스를 따라요.
+- https://raw.github.com/cleanjs/clean.js/master/LICENSE
 
 올ㅋ
 --
