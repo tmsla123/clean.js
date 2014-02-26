@@ -9,5 +9,6 @@
 	string : {},
 	is : {},
 	to : {},
-	valid : {}
+	valid : {},
+	random : {}
 };
