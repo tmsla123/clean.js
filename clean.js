@@ -165,7 +165,7 @@ clean.string.escapeHtml = (function(){
 })();
 
 //전화번호에 하이픈을 넣어서 반환한다
-clean.string.hyphenOnPhoneNum = function(target) {
+clean.string.hyphenOnPhoneNum = function(str) {
 
 	var RegNotNum = /[^0-9]/g;
 	var RegPhonNum = "";
@@ -228,6 +228,13 @@ clean.string.random = function(size) {
 
 	// 마지막으로 반! 환!
 	return str;
+};
+
+// 랜덤 색상문자열 생성!
+clean.string.randomColor = function() {
+
+    // #09ab77 같은 색상문자열 반환
+    return '#' + ('00000' + (Math.random() * 16777216 << 0).toString(16)).substr(-6);
 };
 
 // 문자열에서 특정 문자열을 모두 제거한다!

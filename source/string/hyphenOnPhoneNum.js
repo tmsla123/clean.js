@@ -1,5 +1,6 @@
 //전화번호에 하이픈을 넣어서 반환한다
-clean.string.hyphenOnPhoneNum = function(target) {
+//target->str로 변경했습니당~ 그리고 int 형으로 값들어가면 스크립트 에러나염~
+clean.string.hyphenOnPhoneNum = function(str) {
 
 	var RegNotNum = /[^0-9]/g;
 	var RegPhonNum = "";
@@ -7,7 +8,7 @@ clean.string.hyphenOnPhoneNum = function(target) {
 
 	if (str == "" || str == null)
 		return "";
-
+	
 	str = str.replace(RegNotNum, '');
 
 	if (str.length < 4)

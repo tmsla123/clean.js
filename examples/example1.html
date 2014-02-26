@@ -66,6 +66,13 @@
 		var result = clean.string.trim(targetString);
 		console.log('변경할 문자열 => ' + targetString);
 		console.log('변경후 문자열 => ' + result);
+
+		//hyphenOnPhoneNum
+		//현재 문자열값으로 넘겨줘야함. 간혹 int 값으로 보내는 경우가 있어서 이에대한 예외처리 준비중.
+		var targetNumber = "01012341234";
+		var result = clean.string.hyphenOnPhoneNum(targetNumber);
+		console.log('하이픈 넣기전 => ' + targetNumber)
+		console.log('하이픈 넣은후 => ' + result)
 		</script>
 	</body>
 </html>

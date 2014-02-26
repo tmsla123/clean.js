@@ -110,6 +110,11 @@ console.log('삭제 후 =>' + result);
 ##trim
 문자열을 trim 합니다.
 ```
+//코드
+var targetString = "    아싸라비야 콜롬비야 삐약삐약     ";
+var result = clean.string.trim(targetString);
+console.log('변경할 문자열 => ' + targetString);
+console.log('변경후 문자열 => ' + result);
 
 //결과
 변경할 문자열 =>     아싸라비야 콜롬비야 삐약삐약      
@@ -119,3 +124,18 @@ console.log('삭제 후 =>' + result);
 //결과화면엔 티도안나지만 앞뒤 공백이 제거 됬음을 알립니다
 ```
 
+##hyphenOnPhoneNum
+전화번호에 하이픈( - ) 을 넣어서 반환한다.
+
+```
+//코드
+var targetNumber = "01012341234";
+var result = clean.string.hyphenOnPhoneNum(targetNumber);
+console.log('하이픈 넣기전 => ' + targetNumber)
+console.log('하이픈 넣은후 => ' + result)
+//결과
+하이픈 넣기전 => 01012341234
+하이픈 넣은후 => 010-1234-1234
+```
+
+계속 추가중입니다! 이상한 부분있음 수정해주세요!
