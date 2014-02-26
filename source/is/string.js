@@ -7,5 +7,6 @@ clean.is.string = function(target) {
 
         // IE에서 toString에 접근하기 위해서는 Object.prototype.toString으로 접근해야합니다.
         // 브라우져에 상관없이 쓸 수 있는 typeof을 쓰는 건 어떨가요?
-        return typeof target === 'string';
+        // typeof (new String('abc')) === "object"라는 tipjs님의 말씀에 따라 instanceof 검사로직을 추가합니다.
+        return typeof target === 'string' || target instanceof String;
 };
