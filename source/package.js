@@ -12,11 +12,10 @@
 	date : {},
 	string : {},
 
+	// helpers
 	is : {},
 	to : {},
 	valid : {},
-
-	// helpers
 	random : {},
 
 	// 브라우저 처리
