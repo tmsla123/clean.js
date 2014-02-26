@@ -3,13 +3,22 @@
 
 // 패키지 정보에요!
 ( typeof global === 'undefined' ? window : global).clean = {
+
+	info : {},
+
+	// 데이터 처리
 	array : {},
 	object : {},
 	date : {},
 	string : {},
+
 	is : {},
 	to : {},
 	valid : {},
+
+	// helpers
 	random : {},
+
+	// 브라우저 처리
 	dom : {}
 };
