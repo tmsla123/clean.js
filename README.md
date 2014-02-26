@@ -49,27 +49,9 @@ var afterText = ' 처리하는 기능이 있어요'
 
 커미터
 ---
-- @hanul
-- @hj8902
-- @dkfdnd
-- @rotoshine
-- @hikaMaeng
-- @JaehyunAhn
-- @composite
-- @lazygyu
-- @rabter
-- @devyrlee
-- @erivery2
-- @shulemil
-- @tipjs
-- @ksbang39
-- @rangken
-- @Asukazsoul
-- @ibare
-- @walpokes
-- @tedileader(문서만 주구장창 만들놈)
-- @hanmomhanda
-- @pmpmopm1
+원래 한분한분 아이디 작성해 놓았는데 넘 많아지는것 같아 숫자로 대신합니다!<br>
+현재 총 22분의 커미터가 계십니다!<br>
+https://github.com/orgs/cleanjs/teams/committers
 
 타임라인
 ---
