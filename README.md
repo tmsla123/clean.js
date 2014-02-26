@@ -26,17 +26,6 @@
 	- //OPTIONAL: param2
 - 이 외에는 딱히 제한이 없어요.
 
-패키지
----
-clean.js의 패키지 구조는 다음과 같애요.
-
-var afterText = ' 처리하는 기능이 있어요'
-
-- array : 배열을 + afterText
-- object : 객체를 + afterText
-- date : 날짜를 + afterText
-- string : 문자열을 + afterText
-
 테스트 방법
 ---
 1. source에 코드를 작성해요!
