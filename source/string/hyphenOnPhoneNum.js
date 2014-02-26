@@ -17,7 +17,7 @@ clean.string.hyphenOnPhoneNum = function(str, glue) {
 
 */
 	var RegNotNum = /[^0-9]/g;
-	var res = [], cur = 0, len, ch, type,cnt = 0;
+	var res = [], cur = 0, len;
 	
 	if (str == "" || str == null)
 		return "";
