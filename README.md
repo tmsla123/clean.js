@@ -29,10 +29,13 @@
 패키지
 ---
 clean.js의 패키지 구조는 다음과 같애요.
-- array : 배열을 처리하는 기능들이 있어요.
-- object : 객체를 처리하는 기능들이 있어요.
-- date : 날짜를 처리하는...
-- string : 문자열을... ㅋㅋ
+
+var afterText = ' 처리하는 기능이 있어요'
+
+- array : 배열을 + afterText
+- object : 객체를 + afterText
+- date : 날짜를 + afterText
+- string : 문자열을 + afterText
 
 테스트 방법
 ---
