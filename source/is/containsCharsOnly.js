@@ -5,11 +5,18 @@
  * @returns {Boolean}
  */
 clean.is.containsCharsOnly = function(target, search) {
-	//REQUIRED: target, search
-	
-	for ( var i = 0; i < target.length; i++) {
-		if (search.indexOf(target.charAt(i)) == -1)
+	//REQUIRED: target
+	//REQUIRED: search
+
+	var
+	// index~~~!!
+	i;
+
+	for ( i = 0; i < target.length; i += 1) {
+		if (search.indexOf(target.charAt(i)) === -1) {
 			return false;
+		}
 	}
+
 	return true;
 };
