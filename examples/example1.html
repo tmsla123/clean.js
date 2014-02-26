@@ -73,6 +73,106 @@
 		var result = clean.string.hyphenOnPhoneNum(targetNumber);
 		console.log('하이픈 넣기전 => ' + targetNumber)
 		console.log('하이픈 넣은후 => ' + result)
+
+		//테스트 해보아야 할것들 미리 정검.
+		/* 주어진 단어가 영문 또는 숫자인지 */
+		function is_alpha_num( str )
+		{
+			for(i=0; i<str.length; i++)
+			{
+				if(!((str.charCodeAt(i) > 64 && str.charCodeAt(i) < 91) || (str.charCodeAt(i) >= 96 && str.charCodeAt(i) <= 123) || (str.charCodeAt(i) > 47 && str.charCodeAt(i) < 58) ))
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		/* 주어진 단어가 영문/한글/숫자인지 */
+		function is_alpha_han_num( str )
+		{
+			for(i=0; i<str.length; i++)
+			{
+				if(!((str.charCodeAt(i) > 64 && str.charCodeAt(i) < 91) || (str.charCodeAt(i) >= 96 && str.charCodeAt(i) <= 123) || (str.charCodeAt(i) > 47 && str.charCodeAt(i) < 58) || ((str.charCodeAt(i) > 0x3130 && str.charCodeAt(i) < 0x318F) || (str.charCodeAt(i) >= 0xAC00 && str.charCodeAt(i) <= 0xD7A3)) ))
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		/* 주어진 단어가 영문/한글인지 */
+		function is_han_alpha( str )
+		{
+			for(i=0; i<str.length; i++)
+			{
+				if(!((str.charCodeAt(i) > 64 && str.charCodeAt(i) < 91) || (str.charCodeAt(i) >= 96 && str.charCodeAt(i) <= 123) || ((str.charCodeAt(i) > 0x3130 && str.charCodeAt(i) < 0x318F) || (str.charCodeAt(i) >= 0xAC00 && str.charCodeAt(i) <= 0xD7A3)) ))
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		/* 주어진 단어가 한글인지 */
+		function is_han( str )
+		{
+			for(i=0; i<str.length; i++)
+			{
+				if(!((str.charCodeAt(i) > 0x3130 && str.charCodeAt(i) < 0x318F) || (str.charCodeAt(i) >= 0xAC00 && str.charCodeAt(i) <= 0xD7A3)))
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		/* 주어진 단어가 숫자인지 */
+		function is_num( num )
+		{
+			for(i=0; i<num.length; i++)
+			{
+				if(!(num.charCodeAt(i) > 47 && num.charCodeAt(i) < 58))
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		/* 주어진 단어가 전체 영문인지 */
+		function is_alpha( str )
+		{
+
+			for(i=0; i<str.length; i++)
+			{
+				if(!((str.charCodeAt(i) > 64 && str.charCodeAt(i) < 91) || (str.charCodeAt(i) >= 96 && str.charCodeAt(i) <= 123)))
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		/* 주어진 단어가 한글 또는 숫자인지 */
+		function is_han_num( str )
+		{
+			for(i=0; i<str.length; i++)
+			{
+				if(!((str.charCodeAt(i) > 0x3130 && str.charCodeAt(i) < 0x318F) || (str.charCodeAt(i) >= 0xAC00 && str.charCodeAt(i) <= 0xD7A3) || (str.charCodeAt(i) > 47 && str.charCodeAt(i) < 58) ))
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
 		</script>
 	</body>
 </html>
