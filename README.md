@@ -1,4 +1,4 @@
-clean.js
+![ScreenShot](https://raw.github.com/cleanjs/clean.js/master/logo.png)
 ========
 	  ___  __    ____    __    _  _     ____  ___ 
 	 / __)(  )  ( ___)  /__\  ( \( )   (_  _)/ __)
@@ -50,6 +50,8 @@ clean.js의 패키지 구조는 다음과 같애요.
 - @JaehyunAhn
 - @composite
 - @lazygyu
+- @rabter
+- @devyrlee
 
 타임라인
 ---
