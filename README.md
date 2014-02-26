@@ -55,6 +55,7 @@ clean.js의 패키지 구조는 다음과 같애요.
 - @erivery2
 - @shulemil
 - @tipjs
+- @ksbang39
 
 타임라인
 ---
