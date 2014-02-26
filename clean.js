@@ -48,7 +48,7 @@ clean.date.getTimeStamp = function() {
 
 		//싄나게 000 같이 만들어준거와 n값을 붙여서 값을 전달해줘요~ 당연히 문자열로요~
 		return zero + n;
-	}
+	};
 
 	var d = new Date();
 	var result =
@@ -61,7 +61,8 @@ clean.date.getTimeStamp = function() {
 	this.leadingZeros(d.getSeconds(), 2);
 
 	return result;
-}
+};
+
 // 지금이 언제냐?
 clean.date.now = function() {
 	// 지금은 지금이다!
