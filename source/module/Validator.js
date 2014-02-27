@@ -1,4 +1,3 @@
-var clean = window.clean || { valid : {} };
 /**
  * 공통으로 사용되는 인터랙션에 관련된 스크립트를 모아둔 모듈.
  * @module valid
