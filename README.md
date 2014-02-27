@@ -13,6 +13,10 @@
 - clean.js는 누구에게나 열려있어요. clean.js 유저 그룹( https://www.facebook.com/groups/cleanjs )에서 커미터 신청을 부탁드립니다 :)
 - @cleanjs.org 메일 주소 신청받아요~! 네이버 메일과 연동할 수 있어요!
 
+node.js
+-------
+	npm install clean.js
+
 이것만은 지켜주세요!
 ----
 - 더글라스 크락포드 옹의 자바스크립트 핵심 가이드를 따릅시다!<br>
