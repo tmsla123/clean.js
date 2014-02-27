@@ -19,7 +19,7 @@ node.js
 
 목표
 ----
-underscore.js(http://underscorejs.org)를 뛰어넘는 멋진 JavaScript 라이브러리!
+underscore.js( http://underscorejs.org )를 뛰어넘는 멋진 JavaScript 라이브러리!
 
 이것만은 지켜주세요!
 ----
