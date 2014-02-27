@@ -1,0 +1,16 @@
+{
+	"name": "clean.js",
+	"version": "0.0.1",
+	"description": "깨끗하게 맑게 자신있게~! 누구나 읽기 쉬운 깔끔한 JavaScript!",
+	"main": "clean.js",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/cleanjs/clean.js.git"
+	},
+	"keywords": ["javascript", "lib"],
+	"author": "hanul",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/cleanjs/clean.js/issues"
+	}
+}

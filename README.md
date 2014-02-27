@@ -45,6 +45,7 @@
 - 2014-02-25: 프로젝트 생성
 - 2014-02-26: devyrlee님 로고 제작해주심
 - 2014-02-26: http://cleanjs.org 오픈
+- 2014-02-27: npm package로 등록 (https://www.npmjs.org/package/clean.js)
 
 라이센스
 ----
