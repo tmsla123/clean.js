@@ -4,7 +4,7 @@ var clean = window.clean || { valid : {} };
  * @module valid
  * @submodule ui
  */
-clean.valid.Validator = (function(){
+clean.module.Validator = (function(){
     "use strict";
 
     /**
