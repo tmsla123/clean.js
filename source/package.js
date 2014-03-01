@@ -29,7 +29,10 @@ clean;
 	cookie : {},
 
 	// 모듈
-	module : {}
+	module : {},
+	
+	// 다국어 지원 (i18n)
+	korean : {}
 };
 
 // node.js에서 실행하면 node.js 모듈로 넘겨요!

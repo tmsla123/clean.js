@@ -1,5 +1,7 @@
 // 날자를 읽기 편하게 보여줘용(YYYY-mm-dd HH:ii:ss)
-clean.date.getTimeStamp = function() {
+//COMMENT: 형식도 바꿀 수 있게 하면 어떨까요?!
+//COMMENT: new 로 생성해야 하는 class 이기 때문에 module 패키지로 이동하였습니다.
+clean.module.Timestamp = function() {
 	
 	//요 내부꺼는 좀더 간단하게 할수있음 알려주세용.. 무식하게 돌리는거라.... 따로 함수로 빼긴 그렇고...
 	this.leadingZeros = function(n, digits) {

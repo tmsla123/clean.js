@@ -29,7 +29,10 @@ clean;
 	cookie : {},
 
 	// 모듈
-	module : {}
+	module : {},
+	
+	// 다국어 지원 (i18n)
+	korean : {}
 };
 
 // node.js에서 실행하면 node.js 모듈로 넘겨요!
@@ -419,19 +422,18 @@ clean.cookie.value = function(offset) {
 	return unescape(document.cookie.substring(offset, endstr));
 };
 
-//getMonth 달을 구한다. 혹시나 ...아주 나중에....
-//진짜 나중에.... clean에서 다국어 지원한다면 요긴하게 쓰이겠지만...
-//아마 안쓰일꺼예요.... 아 그냥 그렇다구
-clean.dom.getMonth = function (int_month){
-	//REQUIRED: month : 숫자값이예유~
-	var month_array = new Array("1월", "2월", "3월",
-						   "4월", "5월", "6월",
-						   "7월", "8월", "9월",
-						   "10월", "11월", "12월")
-	return month_array[int_month]
-}
+// 지금이 언제냐?
+clean.date.now = function() {
+
+	// 지금은 지금이다!
+	// 롸잇! 나우!
+	return new Date();
+};
+
 // 날자를 읽기 편하게 보여줘용(YYYY-mm-dd HH:ii:ss)
-clean.date.getTimeStamp = function() {
+//COMMENT: 형식도 바꿀 수 있게 하면 어떨까요?!
+//COMMENT: new 로 생성해야 하는 class 이기 때문에 module 패키지로 이동하였습니다.
+clean.module.Timestamp = function() {
 	
 	//요 내부꺼는 좀더 간단하게 할수있음 알려주세용.. 무식하게 돌리는거라.... 따로 함수로 빼긴 그렇고...
 	this.leadingZeros = function(n, digits) {
@@ -464,22 +466,6 @@ clean.date.getTimeStamp = function() {
 	return result;
 };
 
-// 지금이 언제냐?
-clean.date.now = function() {
-
-	// 지금은 지금이다!
-	// 롸잇! 나우!
-	return new Date();
-};
-
-// clean.js의 셀렉터입니다!
-clean.dom.find = function(selectors) {
-	//REQUIRED: selectors: css스타일의 쿼리 값
-
-	// 일단은... IE8이상에서 지원하는 querySelector으로 작성해 두었습니다!
-	return document.querySelector(selectors);
-};
-
 // 문서 높이 구하기인데... 마땅히 어디다가 둘때가;;;
 //COMMENT: 여기 두심 됩니당!! ㅋㅋ 이름은 좀 변경 했어용!!
 clean.dom.docHeight = function() {
@@ -492,6 +478,14 @@ clean.dom.docHeight = function() {
 		Math.max(d.body.offsetHeight, d.documentElement.offsetHeight),
 		Math.max(d.body.clientHeight, d.documentElement.clientHeight)
 	);
+};
+
+// clean.js의 셀렉터입니다!
+clean.dom.find = function(selectors) {
+	//REQUIRED: selectors: css스타일의 쿼리 값
+
+	// 일단은... IE8이상에서 지원하는 querySelector으로 작성해 두었습니다!
+	return document.querySelector(selectors);
 };
 
 // 몇초를 기다릴까나?
@@ -754,6 +748,21 @@ clean.is.string = function(target) {
 	return typeof target === 'string' || target instanceof String;
 
 	//COMMENT: 매우 만족합니당!
+};
+
+// 달을 구한다. 혹시나 ...아주 나중에....
+// 진짜 나중에.... clean에서 다국어 지원한다면 요긴하게 쓰이겠지만...
+// 아마 안쓰일꺼예요.... 아 그냥 그렇다구
+//COMMENT: ㅋㅋ 한국어 지원인 만큼 korean 패키지로 이동했습니다.
+clean.korean.month = function (month){
+	//REQUIRED: month: 숫자값이예유~
+	
+	var monthArray = new Array("1월", "2월", "3월",
+						   "4월", "5월", "6월",
+						   "7월", "8월", "9월",
+						   "10월", "11월", "12월");
+
+	return monthArray[month];
 };
 
 // 문자열의 특정 값들을 치환하는 템플릿을 생성합니다!!
