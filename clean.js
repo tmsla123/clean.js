@@ -605,6 +605,12 @@ clean.is.string = function(target) {
 	//COMMENT: 매우 만족합니당!
 };
 
+// 문자열의 특정 값들을 치환하는 템플릿을 생성합니다!!
+clean.string.Template = function() {
+
+	//TODO: 작성 필요
+};
+
 /**
  * 공통으로 사용되는 인터랙션에 관련된 스크립트를 모아둔 모듈.
  * @module valid
