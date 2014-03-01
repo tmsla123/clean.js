@@ -20,7 +20,7 @@ clean;
 	is : {},
 	to : {},
 	valid : {},
-	random : {},
+	helper : {},
 
 	// 브라우저 전용 패키지들
 	dom : {},
@@ -357,6 +357,13 @@ clean.dom.getDocHeight = function() {
 		Math.max(d.body.clientHeight, d.documentElement.clientHeight)
 	);
 };
+// 랜덤 색상문자열 생성!
+clean.helper.randomColor = function() {
+
+    // #09ab77 같은 색상문자열 반환
+    return '#' + ('00000' + (Math.random() * 16777216 << 0).toString(16)).substr(-6);
+};
+
 // 브라우저 정보를 가져옵니다.
 clean.info.browser = function() {
 	//TODO: 현재 사용하는 브라우저를 깃점으로 해서 target은 없엠.
@@ -418,14 +425,6 @@ clean.is.containsCharsOnly = function(target, search, allowEmptyString) {
 	// 정규표현식을 사용합시다!
 	r = new RegExp("^[" + search + "]"+(allowEmptyString?"*":"+")+"$");
 	return r.test(target);
-};
-
-// 값이냐?
-clean.is.element = function(target) {
-	//REQUIRED: target: 함순지 확인할 대상
-
-	// 그냥 타입을 체크하면 되는듯ㅋ 찡긋ㅋ
-	return typeof target === 'function';
 };
 
 // target이 비었나??
@@ -993,13 +992,6 @@ clean.object.values = function(object) {
 
 	// 최종적으로 값들의 배열 반환!
 	return values;
-};
-
-// 랜덤 색상문자열 생성!
-clean.random.color = function() {
-
-    // #09ab77 같은 색상문자열 반환
-    return '#' + ('00000' + (Math.random() * 16777216 << 0).toString(16)).substr(-6);
 };
 
 // 랜덤 문자열을 반환하는 함수입니다.

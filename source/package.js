@@ -20,7 +20,7 @@ clean;
 	is : {},
 	to : {},
 	valid : {},
-	random : {},
+	helper : {},
 
 	// 브라우저 전용 패키지들
 	dom : {},
