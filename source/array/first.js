@@ -1,6 +1,7 @@
 // 배열의 첫번째 요소를 n만큼 반환한다.
 clean.array.first = function(array, n) {
 	//REQUIRED: array
+	//OPTIONAL n
 	
 	// 결과
 	var result = [];

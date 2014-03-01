@@ -106,6 +106,7 @@ clean.array.find = function(array, check) {
 // 배열의 첫번째 요소를 n만큼 반환한다.
 clean.array.first = function(array, n) {
 	//REQUIRED: array
+	//OPTIONAL n
 	
 	// 결과
 	var result = [];
@@ -122,9 +123,24 @@ clean.array.first = function(array, n) {
 	return result;
 };
 
+// 객에 대해 method 함수를 invoke 한다.
+clean.array.invoke = function(obj, method) {
+	// REQUIRED obj
+	// REQUIRED method
+
+	// argument가 있으면..
+	var args =  Array.prototype.slice.call(arguments, 2);
+	
+	return clean.array.map(obj, function(value) {
+		// 함수 실행
+		return (clean.is.function(method) ? method : value[method]).apply(value, args);
+	});
+};
+
 // 배열의 마지막 요소를 n만큼 반환한다.
 clean.array.last = function(array, n) {
 	//REQUIRED: array
+	//OPTIONAL n
 	
 	// 결과
 	var result = [];
@@ -137,6 +153,21 @@ clean.array.last = function(array, n) {
 	if(clean.is.array(array) && length > 0 && n > 0) {
 		result = array.slice(-n);
 	}
+
+	return result;
+};
+
+// 각 값에 callback 처리한 배열을 구한다
+clean.array.map = function(object, callback) {
+	//REQUIRED: object
+	//REQUIRED: callback
+
+	var result = [];
+
+	// callback 처리한 값의 배열을 반환
+	clean.object.each(object, function(arg) {
+		result.push(callback(arg));
+	});
 
 	return result;
 };
@@ -185,9 +216,27 @@ clean.array.min = function(array) {
 	return min;
 };
 
+// 키배열과 값배열을 가지고 객체 생성
+clean.array.object = function(array, values) {
+	//REQUIRED array
+	//REQUIRED values
+
+	var result = {};
+	
+	clean.object.each(array, function(key, index) {
+		// 키값에 값을 집어넣는다!
+		result[key] = values[index];
+	});
+
+	return result;
+}
+
 // 배열을 해당 범위만큼 만든다
 clean.array.range = function(start, stop, step) {
+	//OPTIONAL start
 	//REQUIRED: stop
+	//OPTIONAL step
+
 	
 	var array = [];
 	var index;
@@ -213,6 +262,62 @@ clean.array.range = function(start, stop, step) {
 
 	return array;
 };
+
+// 조건에 해당하지 않는 객체만 배열로 반환
+clean.array.reject = function(object, callback) {
+	//REQUIRED: object
+	//REQUIRED: callback
+
+	var result = [];
+
+	clean.object.each(object, function(arg) {
+		// 조건에 안맞으면!
+		if(!callback(arg)) {
+			result.push(arg);
+		}
+	});
+
+	return result;
+};
+
+// 배열에서 값을 제거 한다.
+clean.array.remove = function(array) {
+	// REQUIRED: array
+
+	// 결과 배열
+	var result = array.slice(0);
+
+	clean.object.each(arguments, function(arg, key) {
+		// 해당 배열 외 인자값이 있다면
+		if(key > 0) {
+			var index = result.indexOf(arg);
+			if(index > -1) {
+				// 존재하는 값을 제거한다.
+				result.splice(index, 1);
+			}
+		}
+	});
+
+	return result;
+}
+
+// 모든 배열들에서 유니크한 값만을 뽑아낸다.
+clean.array.union = function() {
+	var result = [];
+	
+	for(var i in arguments)  {
+		// 배열인 경우
+		if(clean.is.array(arguments[i])) {
+			// 모두 포함
+			clean.array.each(arguments[i], function(value) {
+				result.push(value);
+			});
+		}
+	}
+
+	// 유니크한 값만 고르기!
+	return clean.array.unique(result);
+}
 
 // 배열에서 유니크한 값만 뽑아낸다
 clean.array.unique = function(array) {
@@ -419,6 +524,11 @@ clean.is.containsCharsOnly = function(target, search, allowEmptyString) {
 	return r.test(target);
 };
 
+// 함수인지 확인합니다
+clean.is.function = function(object) {
+	// REQUIRED object
+	return typeof obj === 'function';
+}
 // 정수인가?
 clean.is.integer = function(target) {
 	//REQUIRED: target: 정수인지 확인할 대상
@@ -749,6 +859,23 @@ clean.random.string = function(size) {
 	return str;
 };
 
+// 문자열 사이 값을 출력합니다!
+clean.string.between = function(target, start, end) {
+	//REQUIRED target
+	//REQUIRED start
+	//OPTIONAL end
+
+	// 시작점
+	var startPos = target.indexOf(start);
+	// 끝점
+	var endPos = clean.string.reverse(target).indexOf(end);
+
+	startPos = startPos !== -1 ? startPos : 0; 
+	endPos = endPos !== -1 ? target.length - endPos : target.length; 
+
+	// 자릅니다!
+	return target.substring(startPos, endPos);
+}
 // 글자를 바이트 단위로 자릅니다
 clean.string.cutByteString = function(message, maximum) {
 	//REQUIRED: message : 자를 문자열
@@ -963,6 +1090,13 @@ clean.string.replaceAll = function(target, search, replace) {
 	// search를 찾아가지고 쪼갠뒤에 replace로 바꿔서 붙힙니다.
 	return target.split(search).join(replace);
 };
+
+// 문자열을 거꾸로!
+clean.string.reverse = function(target) {
+	//REQUIRED target
+
+	return target.split('').reverse().join('');
+}
 
 // 문자열에서 HTML 태그를 삭제합니다.
 clean.string.stripTag = (function(){
