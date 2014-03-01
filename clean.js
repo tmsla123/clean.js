@@ -40,6 +40,20 @@ if ( typeof exports !== 'undefined') {
 	module.exports = clean;
 }
 
+// NaN, false, undefined, empty value를 제외한 값을 반환한다
+clean.array.compact = function(array) {
+	// REDUIRED array
+
+	return clean.array.filter(array, function(value) {
+		// 한방에 할 수 있는거 없나요 ㅠㅠ
+		if(value !== 'undefined' && !isNaN(value) && value !== false && value !== 0 && value !== '') {
+			return true
+		} else {
+			return false
+		}
+	});
+}
+
 // 배열 요소가 포함되어있는지 확인
 clean.array.contains = function(array, search) {
     // REQUIRED array
@@ -65,6 +79,40 @@ clean.array.contains = function(array, search) {
     }
     
     return check;
+}
+
+// 배열에서 해당 값이 몇개 존재하는지 찾기
+clean.array.count = function(array, search) {
+	// REQUIRED: array
+	// REQUIRED: value
+
+	var
+	// 카운트
+	count = 0;
+
+	// 배열의 값을 하나씩 보면서,
+	clean.array.each(array, function(value) {
+
+		// 검사가 일치하면!
+		if (search === value) count++;
+	});
+
+	// 최종적으로 찾은 값 반환
+	return count;
+};
+clean.array.difference = function() {
+	
+	var result = [];
+
+	clean.object.each(arguments, function(array) {
+		result = result.concat(array);
+	});
+
+	console.log(result);
+	return clean.array.filter(result, function(value) {
+		console.log(value);
+		return clean.array.count(result, value) === 1;
+	});
 }
 
 // 배열의 요소를 각각 처리한다!
@@ -177,32 +225,34 @@ clean.array.first = function(array, n) {
 };
 
 // 배열들의 교집합을 구한다.
-clean.array.intersection = function() {
-	// OPTIONAL array, array, array...
+clean.array.intersection = function(array) {
+	// REQUIRED array
+	// OPTIONAL array arguments
 
 	// 인자로 들어온 배열들을 하나의 배열로!
-	var arrays = Array.prototype.slice.call(arguments);
+	var rest = Array.prototype.slice.call(arguments, 1);
 
 	// 필터링
-	return clean.array.filter(arrays.shift(), function(value) {
+	return clean.array.filter(clean.array.unique(array), function(value) {
 		// 나머지 배열들에 대해서 각 배열들의 배열요소가 값과 일치하는지
 		// 일치 한다면 필터에 걸린다!
-		return clean.array.every(arrays, function(array) {
-	        return array.indexOf(value) !== -1;
+		return clean.array.every(rest, function(other) {
+			return clean.array.contains(other, value);
 	    });
 	});
 }
 
-// 객에 대해 method 함수를 invoke 한다.
-clean.array.invoke = function(obj, method) {
-	// REQUIRED obj
+// 배열 요소에 대해 method 함수를 invoke 한다.
+clean.array.invoke = function(array, method) {
+	// REQUIRED array
 	// REQUIRED method
+	// OPTIONAL args, args, args...
 
 	// argument가 있으면..
 	var args =  Array.prototype.slice.call(arguments, 2);
 
-	// 오브젝트를 돌면서
-	return clean.array.map(obj, function(value) {
+	// 배열을 돌면서
+	return clean.array.map(array, function(value) {
 		// 함수 실행
 		return (clean.is.func(method) ? method : value[method]).apply(value, args);
 	});
@@ -228,16 +278,16 @@ clean.array.last = function(array, n) {
 	return result;
 };
 
-// 각 값에 callback 처리한 배열을 구한다
-clean.array.map = function(object, callback) {
-	// REQUIRED: object
+// 배열 요소에 callback 처리한 배열을 구한다
+clean.array.map = function(array, callback) {
+	// REQUIRED: array
 	// REQUIRED: callback
 
 	var result = [];
 
 	// callback 처리한 값의 배열을 반환
-	clean.object.each(object, function(arg) {
-		result.push(callback(arg));
+	clean.object.each(array, function(value) {
+		result.push(callback(value));
 	});
 
 	return result;
