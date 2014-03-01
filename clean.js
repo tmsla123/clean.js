@@ -11,10 +11,12 @@ clean;
 	info : {},
 
 	// 데이터 처리
-	array : {},
 	object : {},
+	array : {},
 	date : {},
 	string : {},
+	number : {},
+	bool : {},
 
 	// helpers
 	is : {},
@@ -233,6 +235,7 @@ clean.array.unique = function(array) {
 	return result;
 };
 
+//TODO: true, false 중에 랜덤으로 반환하는 기능이 있으면 좋겠음여!
 // 쿠키를 로드해요!
 clean.cookie.get = function(name) {
 	//REQUIRED: name
@@ -372,6 +375,22 @@ clean.helper.randomColor = function() {
 
 	// #09ab77 같은 색상문자열 반환
 	return '#' + ('00000' + (Math.random() * 16777216 << 0).toString(16)).substr(-6);
+};
+
+// func를 몇번 수행할까나??
+clean.helper.times = function(times, func) {
+
+	var
+	// index!!!
+	i;
+
+	// 0에서 times 만큼,
+	for ( i = 0; i < tiems; i += 1) {
+
+		// func를 실행한다!!
+		// index를 넘겨주는건 덤!!
+		func(i);
+	}
 };
 
 // 브라우저 정보를 가져옵니다.
@@ -773,6 +792,7 @@ clean.module.Validator = (function(){
 })();
 
 
+//TODO: 랜덤 숫자를 반환하는 기능 작성할 필요가 있어요!
 // 객체 파워 복사!!!
 clean.object.copy = function(object) {
 	//REQUIRED: object
@@ -1048,6 +1068,17 @@ clean.string.cutByteString = function(message, maximum) {
     	msg = msg + msgMore;
 	return msg;
 }
+// 문자열을 escape합니다!!
+// 특히나 한국어는 escpae가 많이많이 상당히 필요하죵ㅇㅇㅇ!
+clean.string.escape = function(string) {
+	//REQUIRED: string: escape 할 문자열
+
+	// encodeURIComponent를 이용합니다!
+	// 알파벳과 숫자 외 문자를 모두 escape!!
+	// http://도 http%3A%2F%2F로 바껴요!
+	return encodeURIComponent(string);
+};
+
 // 문자열에서 HTML 태그를 escape 합니다.
 clean.string.escapeHtml = (function(){
 	var regExAmp = /&/g, regExGt = />/g, regExLt = /</g,
@@ -1272,6 +1303,16 @@ clean.string.trim = (function(){
 		};
 	}
 })();
+
+// escape한 문자열 원래 문자열로 돌립니다!!
+// 특히나 한국어는 escpae가 많이많이 상당히 필요하죵ㅇㅇㅇ!
+clean.string.unescape = function(escape) {
+	//REQUIRED: escape: escape 된 문자열
+
+	// decodeURIComponent를 이용합니다!
+	// escape가 encodeURIComponent를 이용하였기 때문!!
+	return decodeURIComponent(escape);
+};
 
 // 어떤 대상을 배열로 변경
 clean.to.array = function(thing) {

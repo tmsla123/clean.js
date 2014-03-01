@@ -11,10 +11,12 @@ clean;
 	info : {},
 
 	// 데이터 처리
-	array : {},
 	object : {},
+	array : {},
 	date : {},
 	string : {},
+	number : {},
+	bool : {},
 
 	// helpers
 	is : {},
