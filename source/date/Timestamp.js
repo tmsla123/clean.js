@@ -1,10 +1,10 @@
 // 날자를 읽기 편하게 보여줘용(YYYY-mm-dd HH:ii:ss)
 //COMMENT: 형식도 바꿀 수 있게 하면 어떨까요?!
-//COMMENT: new 로 생성해야 하는 class 이기 때문에 module 패키지로 이동하였습니다.
-clean.module.Timestamp = function() {
+clean.date.timestamp = function() {
 	
+	var
 	//요 내부꺼는 좀더 간단하게 할수있음 알려주세용.. 무식하게 돌리는거라.... 따로 함수로 빼긴 그렇고...
-	this.leadingZeros = function(n, digits) {
+	leadingZeros = function(n, digits) {
 		//REQUIRED: n: 숫자에요~!
 		//REQUIRED: search: 0을 표시해줄 자릿수예요!!
 		
@@ -23,13 +23,13 @@ clean.module.Timestamp = function() {
 
 	var d = new Date();
 	var result =
-	this.leadingZeros(d.getFullYear(), 4) + '-' +
-	this.leadingZeros(d.getMonth() + 1, 2) + '-' +
-	this.leadingZeros(d.getDate(), 2) + ' ' +
+	leadingZeros(d.getFullYear(), 4) + '-' +
+	leadingZeros(d.getMonth() + 1, 2) + '-' +
+	leadingZeros(d.getDate(), 2) + ' ' +
 
-	this.leadingZeros(d.getHours(), 2) + ':' +
-	this.leadingZeros(d.getMinutes(), 2) + ':' +
-	this.leadingZeros(d.getSeconds(), 2);
+	leadingZeros(d.getHours(), 2) + ':' +
+	leadingZeros(d.getMinutes(), 2) + ':' +
+	leadingZeros(d.getSeconds(), 2);
 
 	return result;
 };
