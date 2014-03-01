@@ -1,5 +1,6 @@
-#Clean function list?
+#Cleanjs function list?
 
+Cleanjs 에서 사용되는 함수들 입니당! 
 
 [TOC]
 
@@ -57,6 +58,7 @@
 
 
 **Result**
+
 Before
 
 	<a href='http://naver.com'>링크 태그예유~</a>
