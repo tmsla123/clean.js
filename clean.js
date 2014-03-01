@@ -394,6 +394,7 @@ clean.info.device = function(target) {
 	//TODO:
 };
 
+//TODO: arguments 객체인지 확인하는 기능이 필요합니다!!
 // 배열인가?
 clean.is.array = function(target) {
 	//REQUIRED: target
@@ -417,6 +418,108 @@ clean.is.containsCharsOnly = function(target, search, allowEmptyString) {
 	// 정규표현식을 사용합시다!
 	r = new RegExp("^[" + search + "]"+(allowEmptyString?"*":"+")+"$");
 	return r.test(target);
+};
+
+// 값이냐?
+clean.is.element = function(target) {
+	//REQUIRED: target: 함순지 확인할 대상
+
+	// 그냥 타입을 체크하면 되는듯ㅋ 찡긋ㅋ
+	return typeof target === 'function';
+};
+
+// target이 비었나??
+clean.is.empty = function(target) {
+	//REQUIRED: target
+
+	var
+	// isEmpty?
+	// 일단은 비었다는 가정을 하고!!
+	isEmpty = true;
+
+	// target이 객체면!
+	if (clean.is.object(target) === true) {
+
+		// target의 값들을 돌아보는데,
+		clean.object.each(target, function(value, key) {
+
+			// 어? 비지 않았어?!?!
+			// 비지 않았네?!?!?
+			// 그럼 false!!!!
+			isEmpty = false;
+
+			// 더이상 돌아볼 필요도 없다.
+			return false;
+		});
+	}
+
+	// target이 문자열이면!!
+	else if (clean.is.string(target) === true) {
+
+		// 빈 문자열이면 얄짤없지!
+		if (target === '') {
+			isEmpty = false;
+		}
+	}
+
+	//TODO: 다른 type들에 대해서도 필요합니다!!
+
+	return isEmpty;
+};
+
+// target1, 2가 같냐?
+clean.is.equal = function(target1, target2) {
+	//REQUIRED: target1
+	//REQUIRED: target2
+
+	var
+	// isEqual!
+	// 일단은 같다고 가정하고 틀리면 false로 바꿔줍시다.
+	isEqual = true;
+
+	// target들이 둘다 객체면!!
+	if (clean.is.object(target1) === true && clean.is.object(target2) === true) {
+
+		// target1의 값들을 돌아보면서,
+		clean.object.each(target1, function(value, key) {
+
+			// target1과 target2의 값이 다르면!
+			if (target2[key] !== value) {
+
+				// 이런. 다르군.
+				isEqual = false;
+
+				// each 중단!
+				return false;
+			}
+		});
+
+		// 이번엔 target2의 값들을 돌아보면서,
+		clean.object.each(target2, function(value, key) {
+
+			// target1과 target2의 값이 다르면!
+			if (target1[key] !== value) {
+
+				// 이런. 다르군.
+				isEqual = false;
+
+				// each 중단!
+				return false;
+			}
+		});
+	}
+
+	//TODO: 다른 type들에 대해서도 필요합니다!!
+
+	return isEqual;
+};
+
+// 니 함수냐?
+clean.is.func = function(target) {
+	//REQUIRED: target: 함순지 확인할 대상
+
+	// 그냥 타입을 체크하면 되는듯ㅋ 찡긋ㅋ
+	return typeof target === 'function';
 };
 
 // 정수인가?
@@ -451,6 +554,13 @@ clean.is.number = function(target) {
 	return true;
 }
 */
+// 객체인가?
+clean.is.object = function(target) {
+	//REQUIRED: target: 객체인지 확인할 대상
+
+	// typeof로 후려쳤습니다.
+	return typeof target === 'object';
+};
 
 // 문자열인가?
 clean.is.string = function(target) {
@@ -459,10 +569,12 @@ clean.is.string = function(target) {
 	// 일단 퍼왔는데... 더 좋은코드 있음 써주세요.
 	// return toString.call(target) == '[object String]';
 
-        // IE에서 toString에 접근하기 위해서는 Object.prototype.toString으로 접근해야합니다.
-        // 브라우져에 상관없이 쓸 수 있는 typeof을 쓰는 건 어떨가요?
-        // typeof (new String('abc')) === "object"라는 tipjs님의 말씀에 따라 instanceof 검사로직을 추가합니다.
-        return typeof target === 'string' || target instanceof String;
+	// IE에서 toString에 접근하기 위해서는 Object.prototype.toString으로 접근해야합니다.
+	// 브라우져에 상관없이 쓸 수 있는 typeof을 쓰는 건 어떨가요?
+	// typeof (new String('abc')) === "object"라는 tipjs님의 말씀에 따라 instanceof 검사로직을 추가합니다.
+	return typeof target === 'string' || target instanceof String;
+
+	//COMMENT: 매우 만족합니당!
 };
 
 /**
@@ -652,13 +764,29 @@ clean.module.Validator = (function(){
 })();
 
 
-// object 에서 해당문자가 포함되었는지 확인합니다
-clean.object.contains = function(target, search) {
-	//REQUIRED: target: 대상 object 입니다!
-	//REQUIRED: search: 확인할 요소입니다!
+// 객체 파워 복사!!!
+clean.object.copy = function(object) {
+	//REQUIRED: object
 
-	// search를 찾아가지고 인덱스를 확인합니다!
-	return target.indexOf(search) >= 0;
+	//TODO: deep copy를 구현해야함!!
+	//TODO: 이것을 하기 위해선 array copy와 date형 copy등이 필요함!!
+};
+
+// object를 살펴보면서, 이미 있는건 무시하고 없는건 defaults에서 넣어줍니당당
+clean.object.defaults = function(object, defaults) {
+	//REQUIRED: object
+	//REQUIRED: defaults
+
+	// defaults의 프로퍼티들을 살펴보면서,
+	clean.object.each(defaults, function(value, key) {
+
+		// 읎네???
+		if (clean.object.has(object, key) === false) {
+
+			// 자! 가져라!
+			object[key] = value;
+		}
+	});
 };
 
 // 객체의 프로퍼티를 각각 처리한다!
@@ -677,9 +805,80 @@ clean.object.each = function(object, callback) {
 		if (object.hasOwnProperty(key) === true) {
 
 			// 프로퍼티의 값과 키를 callback으로 쏴줘요!
-			callback(object[key], key);
+			// 만약 callback의 결과값이 false면 더이상 살펴보지 않고 중단!
+			if (callback(object[key], key) === false) {
+				break;
+			}
 		}
 	}
+};
+
+// 객체 확!장!
+clean.object.extend = function(object, extend) {
+	//REQUIRED: object: 본래 객체
+	//REQUIRED: extend: 확장 객체
+
+	// 확장 객체의 프로퍼티들을 살펴보면서,
+	clean.object.each(extend, function(value, key) {
+
+		// 본래 객체에 없는거면,
+		if (clean.object.has(extend, key) === false) {
+
+			// 과감하게 삽입!!!
+			object[key] = value;
+		}
+	});
+};
+
+// object 내의 function들의 key을 반환해주는 기능!!!
+clean.object.functionKeys = function(object) {
+	//REQUIRED: object
+
+	var
+	// 쓕쓕 뽑아냅시다.
+	functionKeys = [];
+
+	// 객체의 프로퍼티들을 살펴보면서,
+	clean.object.each(object, function(value, key) {
+
+		// 값이 function 이면!
+		if (clean.is.func(value)) {
+			
+			// function key들을 솹윕!
+			functionKeys.push(key);
+		}
+	});
+
+	// 뽑아낸 funcion key들을 반환!
+	return functionKeys;
+};
+
+// object에 특정 값이 있는지 확인합니다!!
+clean.object.has = function(object, key) {
+	//REQUIRED: object
+	//REQUIRED: key
+
+	// 너 그 값 안갖고있냐?
+	return object[key] !== undefined;
+};
+
+// object를 key와 value의 순서를 바꾸어주는 기능!
+clean.object.invert = function(object) {
+	//REQUIRED: object
+
+	var
+	// 바꿔 바꿔~! 모든걸 다바꿔~!
+	invert = {};
+
+	// 객체의 프로퍼티들을 살펴보면서,
+	clean.object.each(object, function(value, key) {
+
+		// invert 객체의 value에 key를 값으로다가 삽입!!!
+		invert[value] = key;
+	});
+
+	// 만들어진 invert 반환!
+	return invert;
 };
 
 // object의 키들을 배열로 반환하는 함수
@@ -692,12 +891,89 @@ clean.object.keys = function(object) {
 
 	// 객체의 프로퍼티들을 살펴보면서,
 	clean.object.each(object, function(value, key) {
+
 		// 키들을 배열에 넣습니다.
 		keys.push(key);
 	});
 
 	// 최종적으로 키들의 배열 반환!
 	return keys;
+};
+
+// object의 특정 값들을 제외하고 뽑아내는 기능!!!
+clean.object.omit = function(object) {
+	//REQUIRED: object
+	//OPTIONAL: arguments[1], arguments[2]...: 제외할 값들의 key!!!
+
+	var
+	// 뽑아낸 값들을 갖고있을 객체!~!
+	omit = {};
+
+	// 객체의 프로퍼티를 일단 넣는다!
+	clean.object.each(object, function(value, key) {
+
+		// 쑤우우우욱~~
+		omit[key] = value;
+	});
+
+	// omit 함수를 실행할 때 넘어온 arguments 들을 돌아보면서...
+	clean.object.each(arguments, function(value) {
+
+		// 대상이 되는 object는 넘기고~~ 넘기고~~
+		if (value !== object) {
+
+			// 파워제거!
+			// arguments의 value가 제거할 값들의 key니까 이렇게...
+			delete omit[value];
+		}
+	});
+
+	// 뽑아낸 객체를 반환!~!
+	return omit;
+};
+
+// object를 [key, value] 배열로 바꾸어주는 기능!!
+clean.object.pairs = function(object) {
+	//REQUIRED: object
+
+	var
+	// [key, value] 배열!
+	pairs = [];
+
+	// 객체의 프로퍼티들을 살펴보면서,
+	clean.object.each(object, function(value, key) {
+
+		// [key, value]를 배열에 넣습니다!
+		pairs.push([key, value]);
+	});
+
+	// 최종적으로 [key, value] 배열 반환!
+	return pairs;
+};
+
+// object의 특정 값들을 뽑아내는 기능!!!
+clean.object.pick = function(object) {
+	//REQUIRED: object
+	//OPTIONAL: arguments[1], arguments[2]...
+
+	var
+	// 뽑아낸 값들을 갖고있을 객체!~!
+	pick = {};
+
+	// pick 함수를 실행할 때 넘어온 arguments 들을 돌아보면서...
+	clean.object.each(arguments, function(value) {
+
+		// 대상이 되는 object는 넘기고~~ 넘기고~~
+		if (value !== object) {
+
+			// 파워삽입!
+			// arguments의 value가 뽑아낼 값들의 key니까 이렇게...
+			pick[value] = object[value];
+		}
+	});
+
+	// 뽑아낸 객체를 반환!~!
+	return pick;
 };
 
 // object의 값들을 배열로 반환하는 함수
@@ -710,6 +986,7 @@ clean.object.values = function(object) {
 
 	// 객체의 프로퍼티들을 살펴보면서,
 	clean.object.each(object, function(value) {
+
 		// 키들을 배열에 넣습니다.
 		values.push(value);
 	});
