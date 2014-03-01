@@ -357,11 +357,19 @@ clean.dom.getDocHeight = function() {
 		Math.max(d.body.clientHeight, d.documentElement.clientHeight)
 	);
 };
+// 몇초를 기다릴까나?
+clean.helper.delay = function(seconds, func) {
+
+	// seconds 초 기달려!
+	// 기달리고 func 실행해!
+	setTimeout(func, seconds * 1000);
+};
+
 // 랜덤 색상문자열 생성!
 clean.helper.randomColor = function() {
 
-    // #09ab77 같은 색상문자열 반환
-    return '#' + ('00000' + (Math.random() * 16777216 << 0).toString(16)).substr(-6);
+	// #09ab77 같은 색상문자열 반환
+	return '#' + ('00000' + (Math.random() * 16777216 << 0).toString(16)).substr(-6);
 };
 
 // 브라우저 정보를 가져옵니다.
@@ -994,30 +1002,6 @@ clean.object.values = function(object) {
 	return values;
 };
 
-// 랜덤 문자열을 반환하는 함수입니다.
-clean.random.string = function(size) {
-	//REQUIRED: size: 올매나 긴 문자열을 만들건지 ㅋ
-
-	var
-	// 너, 문자열.
-	str = '',
-
-	// 랜덤하게 생성 가능한 character 셋
-	possibleChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
-
-	// index!
-	i;
-
-	// size까지 돌면서
-	for ( i = 0; i < size; i += 1) {
-		// 문자열에서 랜덤하게 하나의 char을 끄집어 와 추가합니다!
-		str += possibleChars.charAt(Math.floor(Math.random() * possibleChars.length));
-	}
-
-	// 마지막으로 반! 환!
-	return str;
-};
-
 // 글자를 바이트 단위로 자릅니다
 clean.string.cutByteString = function(message, maximum) {
 	//REQUIRED: message : 자를 문자열
@@ -1213,6 +1197,30 @@ clean.string.rTrim = (function(){
 		};
 	}
 })();
+// 랜덤 문자열을 반환하는 함수입니다.
+clean.random.string = function(size) {
+	//REQUIRED: size: 올매나 긴 문자열을 만들건지 ㅋ
+
+	var
+	// 너, 문자열.
+	str = '',
+
+	// 랜덤하게 생성 가능한 character 셋
+	possibleChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
+
+	// index!
+	i;
+
+	// size까지 돌면서
+	for ( i = 0; i < size; i += 1) {
+		// 문자열에서 랜덤하게 하나의 char을 끄집어 와 추가합니다!
+		str += possibleChars.charAt(Math.floor(Math.random() * possibleChars.length));
+	}
+
+	// 마지막으로 반! 환!
+	return str;
+};
+
 // 문자열에서 특정 문자열을 모두 제거한다!
 clean.string.removeAll = function(target, search) {
 	//REQUIRED: target: 대상 문자열입니다!
