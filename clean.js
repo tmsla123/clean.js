@@ -103,6 +103,44 @@ clean.array.find = function(array, check) {
 	return find;
 };
 
+// 배열의 첫번째 요소를 n만큼 반환한다.
+clean.array.first = function(array, n) {
+	//REQUIRED: array
+	
+	// 결과
+	var result = [];
+	// 배열길이
+	var length=array.length;
+
+	n = arguments[1] || 1;
+
+	// 배열이고 사이즈가 0보다 크며 n이 양수인 경우
+	if(clean.is.array(array) && length > 0 && n > 0) {
+		result = array.slice(0, n);
+	}
+
+	return result;
+};
+
+// 배열의 마지막 요소를 n만큼 반환한다.
+clean.array.last = function(array, n) {
+	//REQUIRED: array
+	
+	// 결과
+	var result = [];
+	// 배열길이
+	var length=array.length;
+
+	n = arguments[1] || 1;
+
+	// 배열이고 사이즈가 0보다 크며 n이 양수인 경우
+	if(clean.is.array(array) && length > 0 && n > 0) {
+		result = array.slice(-n);
+	}
+
+	return result;
+};
+
 // 배열에서 최대 값 찾기
 clean.array.max = function(array) {
 	//REQUIRED: array
@@ -145,6 +183,54 @@ clean.array.min = function(array) {
 
 	// 최종적으로 찾은 min값 반환
 	return min;
+};
+
+// 배열을 해당 범위만큼 만든다
+clean.array.range = function(start, stop, step) {
+	//REQUIRED: stop
+	
+	var array = [];
+	var index;
+	var argLength = arguments.length;
+
+	// 인자가 정수가 아니면 빈 배열을 리턴
+	for(index=0; index<argLength; index++) {
+		if(clean.is.integer(arguments[index]) === false) {
+			return array;
+		}
+	}
+	
+	// 인자가 하나인 경우 stop으로 간주
+	if (arguments.length <= 1) {
+    	stop = start;
+    	start = 0;
+    }
+
+	step = arguments[2] || 1;
+	for(index=start; index < stop; index = index + step) {
+		array.push(index);
+	}
+
+	return array;
+};
+
+// 배열에서 유니크한 값만 뽑아낸다
+clean.array.unique = function(array) {
+	//REQUIRED: array
+	
+	// 결과
+	var result = [];
+
+	// 배열의 값을 하나씩 보면서,
+	clean.array.each(array, function(value) {
+
+		// value 를 포함하고 있지 않으면 푸시!
+		if (!clean.object.contains(result, value)) {
+			result.push(value);
+		}
+	});
+
+	return result;
 };
 
 // 쿠키를 로드해요!
@@ -308,6 +394,12 @@ clean.info.device = function(target) {
 	//TODO:
 };
 
+// 배열인가?
+clean.is.array = function(target) {
+	//REQUIRED: target
+
+	return target instanceof Array;
+};
 
 /**
  * 입력된 값이 정해진 문자열로만 이루어졌는지 확인
@@ -560,6 +652,15 @@ clean.module.Validator = (function(){
 })();
 
 
+// object 에서 해당문자가 포함되었는지 확인합니다
+clean.object.contains = function(target, search) {
+	//REQUIRED: target: 대상 object 입니다!
+	//REQUIRED: search: 확인할 요소입니다!
+
+	// search를 찾아가지고 인덱스를 확인합니다!
+	return target.indexOf(search) >= 0;
+};
+
 // 객체의 프로퍼티를 각각 처리한다!
 clean.object.each = function(object, callback) {
 	//REQUIRED: object
@@ -648,14 +749,6 @@ clean.random.string = function(size) {
 	return str;
 };
 
-// 문자열에서 해당문자가 포함되었는지 확인합니다
-clean.string.contains = function(target, search) {
-	//REQUIRED: target: 대상문자열입니다!
-	//REQUIRED: search: 확인할 문자열입니다!
-
-	// search를 찾아가지고 인덱스를 확인합니다!
-	return target.indexOf(search) >= 0;
-};
 // 글자를 바이트 단위로 자릅니다
 clean.string.cutByteString = function(message, maximum) {
 	//REQUIRED: message : 자를 문자열
