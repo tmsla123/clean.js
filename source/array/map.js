@@ -1,7 +1,7 @@
 // 각 값에 callback 처리한 배열을 구한다
 clean.array.map = function(object, callback) {
-	//REQUIRED: object
-	//REQUIRED: callback
+	// REQUIRED: object
+	// REQUIRED: callback
 
 	var result = [];
 

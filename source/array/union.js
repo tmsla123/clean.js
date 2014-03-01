@@ -1,5 +1,7 @@
-// 모든 배열들을 합친다!
+// 배열들의 합집합을 구한다.
 clean.array.union = function() {
+	// OPTIONAL array, array, array...
+
 	var result = [];
 	
 	for(var i in arguments)  {

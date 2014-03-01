@@ -1,6 +1,6 @@
 // 배열에서 최소 값 찾기
 clean.array.min = function(array) {
-	//REQUIRED: array
+	// REQUIRED: array
 
 	var
 	// 찾은 최소값

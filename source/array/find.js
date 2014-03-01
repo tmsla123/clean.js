@@ -1,7 +1,7 @@
 // 배열에서 값 찾기
 clean.array.find = function(array, check) {
-	//REQUIRED: array
-	//REQUIRED: check
+	// REQUIRED: array
+	// REQUIRED: check
 
 	var
 	// 찾은 값

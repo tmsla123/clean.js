@@ -1,8 +1,8 @@
 // 배열을 해당 범위만큼 만든다
 clean.array.range = function(start, stop, step) {
-	//OPTIONAL start
-	//REQUIRED: stop
-	//OPTIONAL step
+	// OPTIONAL start
+	// REQUIRED: stop
+	// OPTIONAL step
 	
 	var array = [];
 	var index;

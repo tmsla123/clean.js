@@ -1,7 +1,7 @@
 // 배열의 마지막 요소를 n만큼 반환한다.
 clean.array.last = function(array, n) {
-	//REQUIRED: array
-	//OPTIONAL n
+	// REQUIRED: array
+	// OPTIONAL n
 	
 	// 결과
 	var result = [];

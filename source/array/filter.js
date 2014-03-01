@@ -1,7 +1,7 @@
 // 배열에서 값들 찾아갖고 배열로 반환!
 clean.array.filter = function(array, check) {
-	//REQUIRED: array
-	//REQUIRED: check
+	// REQUIRED: array
+	// REQUIRED: check
 
 	var
 	// 찾은 값들

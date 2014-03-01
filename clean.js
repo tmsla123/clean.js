@@ -42,6 +42,9 @@ if ( typeof exports !== 'undefined') {
 
 // 배열 요소가 포함되어있는지 확인
 clean.array.contains = function(array, search) {
+    // REQUIRED array
+    // REQUIRED search
+
 	// 배열이 아니거나 값이없으면 false
 	if (!clean.is.array(array) || array.length == 0) return false;
 
@@ -49,19 +52,25 @@ clean.array.contains = function(array, search) {
     if (array.indexOf === Array.prototype.indexOf) return array.indexOf(search) != -1;
 
     // indexOf가 없다면 값을 찾는다
-    return clean.array.each(array, function(value) {
-    	if(value === search) {
-    		return true;
-    	}
-    });
+    var check = false;
+    var
+    // 인덱스에요.
+    index, leng;
 
-    return false;
+    // 모든 요소를 둘러봅니다.
+    for ( index = 0, leng = array.length; index < leng; index++) {
+        // 요소를 callback으로 쏴줘요!
+        // callback 에서 elem 혹은 this로 개별 변수에 접근합니다.
+        if(array[index] === search) check = true; break;
+    }
+    
+    return check;
 }
 
 // 배열의 요소를 각각 처리한다!
 clean.array.each = function(array, callback) {
-	//REQUIRED: array
-	//REQUIRED: callback(elem, index of elem){...}
+	// REQUIRED: array
+	// REQUIRED: callback(elem, index of elem){...}
 	
 	var
 	// 인덱스에요.
@@ -75,10 +84,31 @@ clean.array.each = function(array, callback) {
 	}
 };
 
+// 배열의 모든 멤버가 지정된 조건에 충족하는지 여부를 확인합니다.
+clean.array.every = function(array, callback, args) {
+    // REQUIRED: array
+	// REQUIRED: callback(elem, index of elem, args){...}
+	// OPTIONAL: args
+	
+	var
+	// 인덱스에요.
+	index, leng;
+
+	// 모든 요소를 둘러봅니다.
+	for ( index = 0, leng = array.length; index < leng; index++) {
+		// 모두 조건에 부합해야 true, 그 외에는 false 
+		if(!callback.apply(array[index], [array[index], index], [array[index], index, args])) {
+			return false;
+		}
+	}
+
+	return true;
+};
+
 // 배열에서 값들 찾아갖고 배열로 반환!
 clean.array.filter = function(array, check) {
-	//REQUIRED: array
-	//REQUIRED: check
+	// REQUIRED: array
+	// REQUIRED: check
 
 	var
 	// 찾은 값들
@@ -101,8 +131,8 @@ clean.array.filter = function(array, check) {
 
 // 배열에서 값 찾기
 clean.array.find = function(array, check) {
-	//REQUIRED: array
-	//REQUIRED: check
+	// REQUIRED: array
+	// REQUIRED: check
 
 	var
 	// 찾은 값
@@ -128,8 +158,8 @@ clean.array.find = function(array, check) {
 
 // 배열의 첫번째 요소를 n만큼 반환한다.
 clean.array.first = function(array, n) {
-	//REQUIRED: array
-	//OPTIONAL n
+	// REQUIRED: array
+	// OPTIONAL n
 	
 	// 결과
 	var result = [];
@@ -145,6 +175,23 @@ clean.array.first = function(array, n) {
 
 	return result;
 };
+
+// 배열들의 교집합을 구한다.
+clean.array.intersection = function() {
+	// OPTIONAL array, array, array...
+
+	// 인자로 들어온 배열들을 하나의 배열로!
+	var arrays = Array.prototype.slice.call(arguments);
+
+	// 필터링
+	return clean.array.filter(arrays.shift(), function(value) {
+		// 나머지 배열들에 대해서 각 배열들의 배열요소가 값과 일치하는지
+		// 일치 한다면 필터에 걸린다!
+		return clean.array.every(arrays, function(array) {
+	        return array.indexOf(value) !== -1;
+	    });
+	});
+}
 
 // 객에 대해 method 함수를 invoke 한다.
 clean.array.invoke = function(obj, method) {
@@ -163,8 +210,8 @@ clean.array.invoke = function(obj, method) {
 
 // 배열의 마지막 요소를 n만큼 반환한다.
 clean.array.last = function(array, n) {
-	//REQUIRED: array
-	//OPTIONAL n
+	// REQUIRED: array
+	// OPTIONAL n
 	
 	// 결과
 	var result = [];
@@ -183,8 +230,8 @@ clean.array.last = function(array, n) {
 
 // 각 값에 callback 처리한 배열을 구한다
 clean.array.map = function(object, callback) {
-	//REQUIRED: object
-	//REQUIRED: callback
+	// REQUIRED: object
+	// REQUIRED: callback
 
 	var result = [];
 
@@ -198,7 +245,7 @@ clean.array.map = function(object, callback) {
 
 // 배열에서 최대 값 찾기
 clean.array.max = function(array) {
-	//REQUIRED: array
+	// REQUIRED: array
 
 	var
 	// 찾은 최대값
@@ -220,7 +267,7 @@ clean.array.max = function(array) {
 
 // 배열에서 최소 값 찾기
 clean.array.min = function(array) {
-	//REQUIRED: array
+	// REQUIRED: array
 
 	var
 	// 찾은 최소값
@@ -242,14 +289,14 @@ clean.array.min = function(array) {
 
 // 키배열과 값배열을 가지고 객체 생성
 clean.array.object = function(array, values) {
-	//REQUIRED array
-	//REQUIRED values
+	// REQUIRED array
+	// REQUIRED values
 
 	var result = {};
 	
-	clean.object.each(array, function(key, index) {
+	clean.array.each(array, function(value, index) {
 		// 키값에 값을 집어넣는다!
-		result[key] = values[index];
+		result[value] = values[index];
 	});
 
 	return result;
@@ -257,9 +304,9 @@ clean.array.object = function(array, values) {
 
 // 배열을 해당 범위만큼 만든다
 clean.array.range = function(start, stop, step) {
-	//OPTIONAL start
-	//REQUIRED: stop
-	//OPTIONAL step
+	// OPTIONAL start
+	// REQUIRED: stop
+	// OPTIONAL step
 	
 	var array = [];
 	var index;
@@ -287,16 +334,16 @@ clean.array.range = function(start, stop, step) {
 };
 
 // 조건에 해당하지 않는 객체만 배열로 반환
-clean.array.reject = function(object, callback) {
-	//REQUIRED: object
-	//REQUIRED: callback
+clean.array.reject = function(array, check) {
+	//REQUIRED: array
+	//REQUIRED: check
 
 	var result = [];
 
-	clean.object.each(object, function(arg) {
+	clean.array.each(array, function(value) {
 		// 조건에 안맞으면!
-		if(!callback(arg)) {
-			result.push(arg);
+		if(!check(value)) {
+			result.push(value);
 		}
 	});
 
@@ -306,6 +353,7 @@ clean.array.reject = function(object, callback) {
 // 배열에서 값을 제거 한다.
 clean.array.remove = function(array) {
 	// REQUIRED: array
+	// OPTIONAL element, element, element...
 
 	// 결과 배열
 	var result = array.slice(0);
@@ -324,8 +372,10 @@ clean.array.remove = function(array) {
 	return result;
 }
 
-// 모든 배열들을 합친다!
+// 배열들의 합집합을 구한다.
 clean.array.union = function() {
+	// OPTIONAL array, array, array...
+
 	var result = [];
 	
 	for(var i in arguments)  {
@@ -344,7 +394,7 @@ clean.array.union = function() {
 
 // 배열에서 유니크한 값만 뽑아낸다
 clean.array.unique = function(array) {
-	//REQUIRED: array
+	// REQUIRED: array
 	
 	// 결과
 	var result = [];
@@ -420,6 +470,42 @@ clean.cookie.value = function(offset) {
 	}
 
 	return unescape(document.cookie.substring(offset, endstr));
+};
+
+// 날자를 읽기 편하게 보여줘용(YYYY-mm-dd HH:ii:ss)
+//COMMENT: 형식도 바꿀 수 있게 하면 어떨까요?!
+clean.date.timestamp = function() {
+	
+	var
+	//요 내부꺼는 좀더 간단하게 할수있음 알려주세용.. 무식하게 돌리는거라.... 따로 함수로 빼긴 그렇고...
+	leadingZeros = function(n, digits) {
+		//REQUIRED: n: 숫자에요~!
+		//REQUIRED: search: 0을 표시해줄 자릿수예요!!
+		
+		var zero = ''; //0을 표시해줄 변수하나 대입해줘요.
+		n = n.toString(); //n값이 숫자일지 몰르니 문자열로 바꿔줍시다.
+
+		
+		if (n.length < digits) { //n 값의 길이가 digits 보다 작으면!
+			for (i = 0; i < digits - n.length; i++) //씐나게 ditgits보다 적은만큼 아래 씐나게 for 돌면서 0을 추가해줘요~ 
+				zero += '0';
+		}
+
+		//싄나게 000 같이 만들어준거와 n값을 붙여서 값을 전달해줘요~ 당연히 문자열로요~
+		return zero + n;
+	};
+
+	var d = new Date();
+	var result =
+	leadingZeros(d.getFullYear(), 4) + '-' +
+	leadingZeros(d.getMonth() + 1, 2) + '-' +
+	leadingZeros(d.getDate(), 2) + ' ' +
+
+	leadingZeros(d.getHours(), 2) + ':' +
+	leadingZeros(d.getMinutes(), 2) + ':' +
+	leadingZeros(d.getSeconds(), 2);
+
+	return result;
 };
 
 // 지금이 언제냐?
@@ -733,42 +819,6 @@ clean.korean.month = function (month){
 clean.string.Template = function() {
 
 	//TODO: 작성 필요
-};
-
-// 날자를 읽기 편하게 보여줘용(YYYY-mm-dd HH:ii:ss)
-//COMMENT: 형식도 바꿀 수 있게 하면 어떨까요?!
-clean.date.timestamp = function() {
-	
-	var
-	//요 내부꺼는 좀더 간단하게 할수있음 알려주세용.. 무식하게 돌리는거라.... 따로 함수로 빼긴 그렇고...
-	leadingZeros = function(n, digits) {
-		//REQUIRED: n: 숫자에요~!
-		//REQUIRED: search: 0을 표시해줄 자릿수예요!!
-		
-		var zero = ''; //0을 표시해줄 변수하나 대입해줘요.
-		n = n.toString(); //n값이 숫자일지 몰르니 문자열로 바꿔줍시다.
-
-		
-		if (n.length < digits) { //n 값의 길이가 digits 보다 작으면!
-			for (i = 0; i < digits - n.length; i++) //씐나게 ditgits보다 적은만큼 아래 씐나게 for 돌면서 0을 추가해줘요~ 
-				zero += '0';
-		}
-
-		//싄나게 000 같이 만들어준거와 n값을 붙여서 값을 전달해줘요~ 당연히 문자열로요~
-		return zero + n;
-	};
-
-	var d = new Date();
-	var result =
-	leadingZeros(d.getFullYear(), 4) + '-' +
-	leadingZeros(d.getMonth() + 1, 2) + '-' +
-	leadingZeros(d.getDate(), 2) + ' ' +
-
-	leadingZeros(d.getHours(), 2) + ':' +
-	leadingZeros(d.getMinutes(), 2) + ':' +
-	leadingZeros(d.getSeconds(), 2);
-
-	return result;
 };
 
 /**

@@ -1,6 +1,6 @@
 // 배열에서 최대 값 찾기
 clean.array.max = function(array) {
-	//REQUIRED: array
+	// REQUIRED: array
 
 	var
 	// 찾은 최대값

@@ -1,7 +1,7 @@
 // 배열의 요소를 각각 처리한다!
 clean.array.each = function(array, callback) {
-	//REQUIRED: array
-	//REQUIRED: callback(elem, index of elem){...}
+	// REQUIRED: array
+	// REQUIRED: callback(elem, index of elem){...}
 	
 	var
 	// 인덱스에요.

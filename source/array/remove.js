@@ -1,6 +1,7 @@
 // 배열에서 값을 제거 한다.
 clean.array.remove = function(array) {
 	// REQUIRED: array
+	// OPTIONAL element, element, element...
 
 	// 결과 배열
 	var result = array.slice(0);

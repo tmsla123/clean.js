@@ -1,6 +1,6 @@
 // 배열에서 유니크한 값만 뽑아낸다
 clean.array.unique = function(array) {
-	//REQUIRED: array
+	// REQUIRED: array
 	
 	// 결과
 	var result = [];
