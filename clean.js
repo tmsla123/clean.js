@@ -15,7 +15,7 @@ clean;
 	array : {},
 	date : {},
 	string : {},
-	number : {},
+	integer : {},
 	bool : {},
 
 	// helpers
@@ -358,7 +358,13 @@ clean.array.unique = function(array) {
 	return result;
 };
 
-//TODO: true, false 중에 랜덤으로 반환하는 기능이 있으면 좋겠음여!
+// true, false 중 랜덤하게 반환~!
+clean.bool.random = function() {
+
+	// 0 이나 1 중에 랜덤하게 받아와서 0이면 false, 1이면 true!!
+	return clean.integer.random(1) === 1;
+};
+
 // 쿠키를 로드해요!
 clean.cookie.get = function(name) {
 	//REQUIRED: name
@@ -551,6 +557,25 @@ clean.info.browser = function() {
 // 디바이스 정보를 가져옵니다.
 clean.info.device = function(target) {
 	//TODO:
+};
+
+// 랜덤한 정수 반환~!
+clean.integer.random = function(min, max) {
+	//OPTIONAL: min: 최소값
+	//REQUIRED: max: 최대값
+
+	// max 부분에 값이 없으면 max가 아니라 min이 입력되지 않은것.
+	if (max === undefined) {
+
+		// max 값을 되찾고,
+		max = min;
+
+		// 기본값인 0을 넣어줍니다!
+		min = 0;
+	}
+
+	// Math 함수들을 이용해서 랜덤한 정수를 반환!!!
+	return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
 //TODO: arguments 객체인지 확인하는 기능이 필요합니다!!
@@ -921,7 +946,6 @@ clean.module.Validator = (function(){
 })();
 
 
-//TODO: 랜덤 숫자를 반환하는 기능 작성할 필요가 있어요!
 // 객체 파워 복사!!!
 clean.object.copy = function(object) {
 	//REQUIRED: object

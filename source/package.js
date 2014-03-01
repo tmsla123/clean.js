@@ -15,7 +15,7 @@ clean;
 	array : {},
 	date : {},
 	string : {},
-	number : {},
+	integer : {},
 	bool : {},
 
 	// helpers
