@@ -9,7 +9,7 @@ clean.array.unique = function(array) {
 	clean.array.each(array, function(value) {
 
 		// value 를 포함하고 있지 않으면 푸시!
-		if (!clean.object.contains(result, value)) {
+		if (!clean.array.contains(result, value)) {
 			result.push(value);
 		}
 	});

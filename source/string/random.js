@@ -1,5 +1,5 @@
 // 랜덤 문자열을 반환하는 함수입니다.
-clean.random.string = function(size) {
+clean.string.random = function(size) {
 	//REQUIRED: size: 올매나 긴 문자열을 만들건지 ㅋ
 
 	var

@@ -5,9 +5,10 @@ clean.array.invoke = function(obj, method) {
 
 	// argument가 있으면..
 	var args =  Array.prototype.slice.call(arguments, 2);
-	
+
+	// 오브젝트를 돌면서
 	return clean.array.map(obj, function(value) {
 		// 함수 실행
-		return (clean.is.function(method) ? method : value[method]).apply(value, args);
+		return (clean.is.func(method) ? method : value[method]).apply(value, args);
 	});
 };

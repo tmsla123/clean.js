@@ -8,6 +8,7 @@ clean.object.keys = function(object) {
 
 	// 객체의 프로퍼티들을 살펴보면서,
 	clean.object.each(object, function(value, key) {
+
 		// 키들을 배열에 넣습니다.
 		keys.push(key);
 	});

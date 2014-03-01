@@ -14,7 +14,10 @@ clean.object.each = function(object, callback) {
 		if (object.hasOwnProperty(key) === true) {
 
 			// 프로퍼티의 값과 키를 callback으로 쏴줘요!
-			callback(object[key], key);
+			// 만약 callback의 결과값이 false면 더이상 살펴보지 않고 중단!
+			if (callback(object[key], key) === false) {
+				break;
+			}
 		}
 	}
 };

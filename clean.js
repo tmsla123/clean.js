@@ -11,16 +11,18 @@ clean;
 	info : {},
 
 	// 데이터 처리
-	array : {},
 	object : {},
+	array : {},
 	date : {},
 	string : {},
+	number : {},
+	bool : {},
 
 	// helpers
 	is : {},
 	to : {},
 	valid : {},
-	random : {},
+	helper : {},
 
 	// 브라우저 전용 패키지들
 	dom : {},
@@ -33,6 +35,24 @@ clean;
 // node.js에서 실행하면 node.js 모듈로 넘겨요!
 if ( typeof exports !== 'undefined') {
 	module.exports = clean;
+}
+
+// 배열 요소가 포함되어있는지 확인
+clean.array.contains = function(array, search) {
+	// 배열이 아니거나 값이없으면 false
+	if (!clean.is.array(array) || array.length == 0) return false;
+
+	// 인덱스 검사
+    if (array.indexOf === Array.prototype.indexOf) return array.indexOf(search) != -1;
+
+    // indexOf가 없다면 값을 찾는다
+    return clean.array.each(array, function(value) {
+    	if(value === search) {
+    		return true;
+    	}
+    });
+
+    return false;
 }
 
 // 배열의 요소를 각각 처리한다!
@@ -130,10 +150,11 @@ clean.array.invoke = function(obj, method) {
 
 	// argument가 있으면..
 	var args =  Array.prototype.slice.call(arguments, 2);
-	
+
+	// 오브젝트를 돌면서
 	return clean.array.map(obj, function(value) {
 		// 함수 실행
-		return (clean.is.function(method) ? method : value[method]).apply(value, args);
+		return (clean.is.func(method) ? method : value[method]).apply(value, args);
 	});
 };
 
@@ -236,7 +257,6 @@ clean.array.range = function(start, stop, step) {
 	//OPTIONAL start
 	//REQUIRED: stop
 	//OPTIONAL step
-
 	
 	var array = [];
 	var index;
@@ -301,7 +321,7 @@ clean.array.remove = function(array) {
 	return result;
 }
 
-// 모든 배열들에서 유니크한 값만을 뽑아낸다.
+// 모든 배열들을 합친다!
 clean.array.union = function() {
 	var result = [];
 	
@@ -330,7 +350,7 @@ clean.array.unique = function(array) {
 	clean.array.each(array, function(value) {
 
 		// value 를 포함하고 있지 않으면 푸시!
-		if (!clean.object.contains(result, value)) {
+		if (!clean.array.contains(result, value)) {
 			result.push(value);
 		}
 	});
@@ -338,6 +358,7 @@ clean.array.unique = function(array) {
 	return result;
 };
 
+//TODO: true, false 중에 랜덤으로 반환하는 기능이 있으면 좋겠음여!
 // 쿠키를 로드해요!
 clean.cookie.get = function(name) {
 	//REQUIRED: name
@@ -439,7 +460,9 @@ clean.date.getTimeStamp = function() {
 
 // 지금이 언제냐?
 clean.date.now = function() {
+
 	// 지금은 지금이다!
+	// 롸잇! 나우!
 	return new Date();
 };
 
@@ -462,6 +485,37 @@ clean.dom.getDocHeight = function() {
 		Math.max(d.body.clientHeight, d.documentElement.clientHeight)
 	);
 };
+// 몇초를 기다릴까나?
+clean.helper.delay = function(seconds, func) {
+
+	// seconds 초 기달려!
+	// 기달리고 func 실행해!
+	setTimeout(func, seconds * 1000);
+};
+
+// 랜덤 색상문자열 생성!
+clean.helper.randomColor = function() {
+
+	// #09ab77 같은 색상문자열 반환
+	return '#' + ('00000' + (Math.random() * 16777216 << 0).toString(16)).substr(-6);
+};
+
+// func를 몇번 수행할까나??
+clean.helper.times = function(times, func) {
+
+	var
+	// index!!!
+	i;
+
+	// 0에서 times 만큼,
+	for ( i = 0; i < tiems; i += 1) {
+
+		// func를 실행한다!!
+		// index를 넘겨주는건 덤!!
+		func(i);
+	}
+};
+
 // 브라우저 정보를 가져옵니다.
 clean.info.browser = function() {
 	//TODO: 현재 사용하는 브라우저를 깃점으로 해서 target은 없엠.
@@ -499,6 +553,7 @@ clean.info.device = function(target) {
 	//TODO:
 };
 
+//TODO: arguments 객체인지 확인하는 기능이 필요합니다!!
 // 배열인가?
 clean.is.array = function(target) {
 	//REQUIRED: target
@@ -524,11 +579,100 @@ clean.is.containsCharsOnly = function(target, search, allowEmptyString) {
 	return r.test(target);
 };
 
-// 함수인지 확인합니다
-clean.is.function = function(object) {
-	// REQUIRED object
-	return typeof obj === 'function';
-}
+// target이 비었나??
+clean.is.empty = function(target) {
+	//REQUIRED: target
+
+	var
+	// isEmpty?
+	// 일단은 비었다는 가정을 하고!!
+	isEmpty = true;
+
+	// target이 객체면!
+	if (clean.is.object(target) === true) {
+
+		// target의 값들을 돌아보는데,
+		clean.object.each(target, function(value, key) {
+
+			// 어? 비지 않았어?!?!
+			// 비지 않았네?!?!?
+			// 그럼 false!!!!
+			isEmpty = false;
+
+			// 더이상 돌아볼 필요도 없다.
+			return false;
+		});
+	}
+
+	// target이 문자열이면!!
+	else if (clean.is.string(target) === true) {
+
+		// 빈 문자열이면 얄짤없지!
+		if (target === '') {
+			isEmpty = false;
+		}
+	}
+
+	//TODO: 다른 type들에 대해서도 필요합니다!!
+
+	return isEmpty;
+};
+
+// target1, 2가 같냐?
+clean.is.equal = function(target1, target2) {
+	//REQUIRED: target1
+	//REQUIRED: target2
+
+	var
+	// isEqual!
+	// 일단은 같다고 가정하고 틀리면 false로 바꿔줍시다.
+	isEqual = true;
+
+	// target들이 둘다 객체면!!
+	if (clean.is.object(target1) === true && clean.is.object(target2) === true) {
+
+		// target1의 값들을 돌아보면서,
+		clean.object.each(target1, function(value, key) {
+
+			// target1과 target2의 값이 다르면!
+			if (target2[key] !== value) {
+
+				// 이런. 다르군.
+				isEqual = false;
+
+				// each 중단!
+				return false;
+			}
+		});
+
+		// 이번엔 target2의 값들을 돌아보면서,
+		clean.object.each(target2, function(value, key) {
+
+			// target1과 target2의 값이 다르면!
+			if (target1[key] !== value) {
+
+				// 이런. 다르군.
+				isEqual = false;
+
+				// each 중단!
+				return false;
+			}
+		});
+	}
+
+	//TODO: 다른 type들에 대해서도 필요합니다!!
+
+	return isEqual;
+};
+
+// 니 함수냐?
+clean.is.func = function(target) {
+	//REQUIRED: target: 함순지 확인할 대상
+
+	// 그냥 타입을 체크하면 되는듯ㅋ 찡긋ㅋ
+	return typeof target === 'function';
+};
+
 // 정수인가?
 clean.is.integer = function(target) {
 	//REQUIRED: target: 정수인지 확인할 대상
@@ -561,6 +705,13 @@ clean.is.number = function(target) {
 	return true;
 }
 */
+// 객체인가?
+clean.is.object = function(target) {
+	//REQUIRED: target: 객체인지 확인할 대상
+
+	// typeof로 후려쳤습니다.
+	return typeof target === 'object';
+};
 
 // 문자열인가?
 clean.is.string = function(target) {
@@ -569,10 +720,18 @@ clean.is.string = function(target) {
 	// 일단 퍼왔는데... 더 좋은코드 있음 써주세요.
 	// return toString.call(target) == '[object String]';
 
-        // IE에서 toString에 접근하기 위해서는 Object.prototype.toString으로 접근해야합니다.
-        // 브라우져에 상관없이 쓸 수 있는 typeof을 쓰는 건 어떨가요?
-        // typeof (new String('abc')) === "object"라는 tipjs님의 말씀에 따라 instanceof 검사로직을 추가합니다.
-        return typeof target === 'string' || target instanceof String;
+	// IE에서 toString에 접근하기 위해서는 Object.prototype.toString으로 접근해야합니다.
+	// 브라우져에 상관없이 쓸 수 있는 typeof을 쓰는 건 어떨가요?
+	// typeof (new String('abc')) === "object"라는 tipjs님의 말씀에 따라 instanceof 검사로직을 추가합니다.
+	return typeof target === 'string' || target instanceof String;
+
+	//COMMENT: 매우 만족합니당!
+};
+
+// 문자열의 특정 값들을 치환하는 템플릿을 생성합니다!!
+clean.string.Template = function() {
+
+	//TODO: 작성 필요
 };
 
 /**
@@ -762,13 +921,30 @@ clean.module.Validator = (function(){
 })();
 
 
-// object 에서 해당문자가 포함되었는지 확인합니다
-clean.object.contains = function(target, search) {
-	//REQUIRED: target: 대상 object 입니다!
-	//REQUIRED: search: 확인할 요소입니다!
+//TODO: 랜덤 숫자를 반환하는 기능 작성할 필요가 있어요!
+// 객체 파워 복사!!!
+clean.object.copy = function(object) {
+	//REQUIRED: object
 
-	// search를 찾아가지고 인덱스를 확인합니다!
-	return target.indexOf(search) >= 0;
+	//TODO: deep copy를 구현해야함!!
+	//TODO: 이것을 하기 위해선 array copy와 date형 copy등이 필요함!!
+};
+
+// object를 살펴보면서, 이미 있는건 무시하고 없는건 defaults에서 넣어줍니당당
+clean.object.defaults = function(object, defaults) {
+	//REQUIRED: object
+	//REQUIRED: defaults
+
+	// defaults의 프로퍼티들을 살펴보면서,
+	clean.object.each(defaults, function(value, key) {
+
+		// 읎네???
+		if (clean.object.has(object, key) === false) {
+
+			// 자! 가져라!
+			object[key] = value;
+		}
+	});
 };
 
 // 객체의 프로퍼티를 각각 처리한다!
@@ -787,9 +963,80 @@ clean.object.each = function(object, callback) {
 		if (object.hasOwnProperty(key) === true) {
 
 			// 프로퍼티의 값과 키를 callback으로 쏴줘요!
-			callback(object[key], key);
+			// 만약 callback의 결과값이 false면 더이상 살펴보지 않고 중단!
+			if (callback(object[key], key) === false) {
+				break;
+			}
 		}
 	}
+};
+
+// 객체 확!장!
+clean.object.extend = function(object, extend) {
+	//REQUIRED: object: 본래 객체
+	//REQUIRED: extend: 확장 객체
+
+	// 확장 객체의 프로퍼티들을 살펴보면서,
+	clean.object.each(extend, function(value, key) {
+
+		// 본래 객체에 없는거면,
+		if (clean.object.has(extend, key) === false) {
+
+			// 과감하게 삽입!!!
+			object[key] = value;
+		}
+	});
+};
+
+// object 내의 function들의 key을 반환해주는 기능!!!
+clean.object.functionKeys = function(object) {
+	//REQUIRED: object
+
+	var
+	// 쓕쓕 뽑아냅시다.
+	functionKeys = [];
+
+	// 객체의 프로퍼티들을 살펴보면서,
+	clean.object.each(object, function(value, key) {
+
+		// 값이 function 이면!
+		if (clean.is.func(value)) {
+			
+			// function key들을 솹윕!
+			functionKeys.push(key);
+		}
+	});
+
+	// 뽑아낸 funcion key들을 반환!
+	return functionKeys;
+};
+
+// object에 특정 값이 있는지 확인합니다!!
+clean.object.has = function(object, key) {
+	//REQUIRED: object
+	//REQUIRED: key
+
+	// 너 그 값 안갖고있냐?
+	return object[key] !== undefined;
+};
+
+// object를 key와 value의 순서를 바꾸어주는 기능!
+clean.object.invert = function(object) {
+	//REQUIRED: object
+
+	var
+	// 바꿔 바꿔~! 모든걸 다바꿔~!
+	invert = {};
+
+	// 객체의 프로퍼티들을 살펴보면서,
+	clean.object.each(object, function(value, key) {
+
+		// invert 객체의 value에 key를 값으로다가 삽입!!!
+		invert[value] = key;
+	});
+
+	// 만들어진 invert 반환!
+	return invert;
 };
 
 // object의 키들을 배열로 반환하는 함수
@@ -802,12 +1049,89 @@ clean.object.keys = function(object) {
 
 	// 객체의 프로퍼티들을 살펴보면서,
 	clean.object.each(object, function(value, key) {
+
 		// 키들을 배열에 넣습니다.
 		keys.push(key);
 	});
 
 	// 최종적으로 키들의 배열 반환!
 	return keys;
+};
+
+// object의 특정 값들을 제외하고 뽑아내는 기능!!!
+clean.object.omit = function(object) {
+	//REQUIRED: object
+	//OPTIONAL: arguments[1], arguments[2]...: 제외할 값들의 key!!!
+
+	var
+	// 뽑아낸 값들을 갖고있을 객체!~!
+	omit = {};
+
+	// 객체의 프로퍼티를 일단 넣는다!
+	clean.object.each(object, function(value, key) {
+
+		// 쑤우우우욱~~
+		omit[key] = value;
+	});
+
+	// omit 함수를 실행할 때 넘어온 arguments 들을 돌아보면서...
+	clean.object.each(arguments, function(value) {
+
+		// 대상이 되는 object는 넘기고~~ 넘기고~~
+		if (value !== object) {
+
+			// 파워제거!
+			// arguments의 value가 제거할 값들의 key니까 이렇게...
+			delete omit[value];
+		}
+	});
+
+	// 뽑아낸 객체를 반환!~!
+	return omit;
+};
+
+// object를 [key, value] 배열로 바꾸어주는 기능!!
+clean.object.pairs = function(object) {
+	//REQUIRED: object
+
+	var
+	// [key, value] 배열!
+	pairs = [];
+
+	// 객체의 프로퍼티들을 살펴보면서,
+	clean.object.each(object, function(value, key) {
+
+		// [key, value]를 배열에 넣습니다!
+		pairs.push([key, value]);
+	});
+
+	// 최종적으로 [key, value] 배열 반환!
+	return pairs;
+};
+
+// object의 특정 값들을 뽑아내는 기능!!!
+clean.object.pick = function(object) {
+	//REQUIRED: object
+	//OPTIONAL: arguments[1], arguments[2]...
+
+	var
+	// 뽑아낸 값들을 갖고있을 객체!~!
+	pick = {};
+
+	// pick 함수를 실행할 때 넘어온 arguments 들을 돌아보면서...
+	clean.object.each(arguments, function(value) {
+
+		// 대상이 되는 object는 넘기고~~ 넘기고~~
+		if (value !== object) {
+
+			// 파워삽입!
+			// arguments의 value가 뽑아낼 값들의 key니까 이렇게...
+			pick[value] = object[value];
+		}
+	});
+
+	// 뽑아낸 객체를 반환!~!
+	return pick;
 };
 
 // object의 값들을 배열로 반환하는 함수
@@ -820,43 +1144,13 @@ clean.object.values = function(object) {
 
 	// 객체의 프로퍼티들을 살펴보면서,
 	clean.object.each(object, function(value) {
+
 		// 키들을 배열에 넣습니다.
 		values.push(value);
 	});
 
 	// 최종적으로 값들의 배열 반환!
 	return values;
-};
-
-// 랜덤 색상문자열 생성!
-clean.random.color = function() {
-
-    // #09ab77 같은 색상문자열 반환
-    return '#' + ('00000' + (Math.random() * 16777216 << 0).toString(16)).substr(-6);
-};
-
-// 랜덤 문자열을 반환하는 함수입니다.
-clean.random.string = function(size) {
-	//REQUIRED: size: 올매나 긴 문자열을 만들건지 ㅋ
-
-	var
-	// 너, 문자열.
-	str = '',
-
-	// 랜덤하게 생성 가능한 character 셋
-	possibleChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
-
-	// index!
-	i;
-
-	// size까지 돌면서
-	for ( i = 0; i < size; i += 1) {
-		// 문자열에서 랜덤하게 하나의 char을 끄집어 와 추가합니다!
-		str += possibleChars.charAt(Math.floor(Math.random() * possibleChars.length));
-	}
-
-	// 마지막으로 반! 환!
-	return str;
 };
 
 // 문자열 사이 값을 출력합니다!
@@ -876,6 +1170,15 @@ clean.string.between = function(target, start, end) {
 	// 자릅니다!
 	return target.substring(startPos, endPos);
 }
+// 문자열에서 해당문자가 포함되었는지 확인합니다
+clean.string.contains = function(target, search) {
+	//REQUIRED: target: 대상문자열입니다!
+	//REQUIRED: search: 확인할 문자열입니다!
+
+	// search를 찾아가지고 인덱스를 확인합니다!
+	return target.indexOf(search) != -1;
+};
+
 // 글자를 바이트 단위로 자릅니다
 clean.string.cutByteString = function(message, maximum) {
 	//REQUIRED: message : 자를 문자열
@@ -920,6 +1223,17 @@ clean.string.cutByteString = function(message, maximum) {
     	msg = msg + msgMore;
 	return msg;
 }
+// 문자열을 escape합니다!!
+// 특히나 한국어는 escpae가 많이많이 상당히 필요하죵ㅇㅇㅇ!
+clean.string.escape = function(string) {
+	//REQUIRED: string: escape 할 문자열
+
+	// encodeURIComponent를 이용합니다!
+	// 알파벳과 숫자 외 문자를 모두 escape!!
+	// http://도 http%3A%2F%2F로 바껴요!
+	return encodeURIComponent(string);
+};
+
 // 문자열에서 HTML 태그를 escape 합니다.
 clean.string.escapeHtml = (function(){
 	var regExAmp = /&/g, regExGt = />/g, regExLt = /</g,
@@ -1071,6 +1385,30 @@ clean.string.rTrim = (function(){
 		};
 	}
 })();
+// 랜덤 문자열을 반환하는 함수입니다.
+clean.string.random = function(size) {
+	//REQUIRED: size: 올매나 긴 문자열을 만들건지 ㅋ
+
+	var
+	// 너, 문자열.
+	str = '',
+
+	// 랜덤하게 생성 가능한 character 셋
+	possibleChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
+
+	// index!
+	i;
+
+	// size까지 돌면서
+	for ( i = 0; i < size; i += 1) {
+		// 문자열에서 랜덤하게 하나의 char을 끄집어 와 추가합니다!
+		str += possibleChars.charAt(Math.floor(Math.random() * possibleChars.length));
+	}
+
+	// 마지막으로 반! 환!
+	return str;
+};
+
 // 문자열에서 특정 문자열을 모두 제거한다!
 clean.string.removeAll = function(target, search) {
 	//REQUIRED: target: 대상 문자열입니다!
@@ -1127,6 +1465,16 @@ clean.string.trim = (function(){
 		};
 	}
 })();
+
+// escape한 문자열 원래 문자열로 돌립니다!!
+// 특히나 한국어는 escpae가 많이많이 상당히 필요하죵ㅇㅇㅇ!
+clean.string.unescape = function(escape) {
+	//REQUIRED: escape: escape 된 문자열
+
+	// decodeURIComponent를 이용합니다!
+	// escape가 encodeURIComponent를 이용하였기 때문!!
+	return decodeURIComponent(escape);
+};
 
 // 어떤 대상을 배열로 변경
 clean.to.array = function(thing) {

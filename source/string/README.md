@@ -114,4 +114,15 @@ console.log('하이픈 넣은후 => ' + result)
 하이픈 넣은후 => 010-1234-1234
 ```
 
+##random
+랜덤 문자열을 반환하는 함수입니다.
+```
+//코드
+var randomString = clean.string.random(15);
+console.log('랜덤 문자열 =>' + randomString);
+
+//결과
+랜덤 문자열 => tGASq7LwUj6I591
+```
+
 계속 추가중입니다! 이상한 부분있음 수정해주세요!

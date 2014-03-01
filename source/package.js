@@ -11,16 +11,18 @@ clean;
 	info : {},
 
 	// 데이터 처리
-	array : {},
 	object : {},
+	array : {},
 	date : {},
 	string : {},
+	number : {},
+	bool : {},
 
 	// helpers
 	is : {},
 	to : {},
 	valid : {},
-	random : {},
+	helper : {},
 
 	// 브라우저 전용 패키지들
 	dom : {},
