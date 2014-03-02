@@ -609,7 +609,31 @@ clean.dom.attr = function(el, data) {
 
 // element의 attribute들을 객체로 가져온다!!
 // 예) clean.dom.attrs(el); -> { type : 'text' }
-// TODO: 
+clean.dom.attrs = function(el) {
+
+	var
+	// attribute들!!
+	attrs = {},
+
+	// attribute 데이타!!!!
+	attrData,
+
+	// index!!
+	i;
+
+	for ( i = 0; i < el.attributes.length; i += 1) {
+
+		// attribute 데이타를 뽑아낸다.
+		attrData = el.attributes[i];
+
+		// 삽입!
+		attrs[attrData.nodeName] = attrData.nodeValue;
+	}
+
+	// 모은 attribute들을 반환한다!
+	return attrs;
+};
+
 // 문서 높이 구하기인데... 마땅히 어디다가 둘때가;;;
 //COMMENT: 여기 두심 됩니당!! ㅋㅋ 이름은 좀 변경 했어용!!
 clean.dom.docHeight = function() {
