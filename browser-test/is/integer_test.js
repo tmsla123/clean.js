@@ -14,14 +14,14 @@ test("(100000000000000000): true", function() {
 	ok(clean.is.integer(target), "param: 100000000000000000 passed");
 });
 
-test("('123'): true", function() {
-	var target = '123';
-	ok(clean.is.integer(target), "param: '123' passed");
-});
-
 test("(0x123): true", function() {
 	var target = 0x123;
 	ok(clean.is.integer(target), "param: '0x123' passed");
+});
+
+test("('123'): false", function() {
+	var target = '123';
+	equal(false, clean.is.integer(target), "param: '123' passed");
 });
 
 test("(0.12): false", function() {
