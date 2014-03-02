@@ -1,8 +1,8 @@
-// 요기는 패키지 정보를 담고있어요.
+// 요기는 namespace 정보를 담고있어요.
 // 헤헤
 
 var
-// root package
+// root
 clean;
 
 // 패키지 정보에요!

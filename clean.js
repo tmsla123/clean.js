@@ -1,8 +1,8 @@
-// 요기는 패키지 정보를 담고있어요.
+// 요기는 namespace 정보를 담고있어요.
 // 헤헤
 
 var
-// root package
+// root
 clean;
 
 // 패키지 정보에요!
@@ -12,7 +12,7 @@ clean;
 
 	// 데이터 처리
 	object : {},
-    function : {},
+	func : {},
 	array : {},
 	date : {},
 	string : {},
@@ -27,11 +27,14 @@ clean;
 
 	// 브라우저 전용 패키지들
 	dom : {},
+	evt : {},
+	effect : {},
 	cookie : {},
+	ajax : {},
 
 	// 모듈
 	module : {},
-	
+
 	// 다국어 지원 (i18n)
 	korean : {}
 };
@@ -563,6 +566,14 @@ clean.date.now = function() {
 	return new Date();
 };
 
+// 1. 두번째 파라미터가 object면, element의 attribute를 지정한다!!
+// 예) clean.dom.attr(e, { type : 'text' });
+// 2. 두번째 파라미터가 string이면, element의 attribute를 가져온다!!
+// 예) clean.dom.attr(e, 'type'); -> 'text'
+// TODO: 
+// element의 attribute들을 객체로 가져온다!!
+// 예) clean.dom.attrs(e); -> { type : 'text' }
+// TODO: 
 // 문서 높이 구하기인데... 마땅히 어디다가 둘때가;;;
 //COMMENT: 여기 두심 됩니당!! ㅋㅋ 이름은 좀 변경 했어용!!
 clean.dom.docHeight = function() {
@@ -585,29 +596,60 @@ clean.dom.find = function(selectors) {
 	return document.querySelector(selectors);
 };
 
+// clean.js의 셀렉터입니다!
+clean.dom.findAll = function(selectors) {
+	//REQUIRED: selectors: css스타일의 쿼리 값
+
+	// 일단은... IE8이상에서 지원하는 querySelectorAll으로 작성해 두었습니다!
+	return document.querySelectorAll(selectors);
+};
+
+// 1. 두번째 파라미터가 object면, element의 style을 지정한다!!
+// 예) clean.dom.style(e, { fontSize : 16 });
+// 2. 두번째 파라미터가 string이면, element의 style을 가져온다!!
+// 예) clean.dom.style(e, 'fontSize'); -> 16
+// TODO: 
+// element의 style들을 객체로 가져온다!!
+// 예) clean.dom.styles(e); -> { fontSize : 16 }
+// TODO: 
 /**
  * 특정 콘텍스트에 바인딩한 함수를 만들어서 돌려줍니다.
  * @param {Function} funArg
  * @param {Object} context
  * @returns {Function} {bound}
  */
-clean.function.bind = function (funArg, context){
-    var	partial	= Array.prototype.splice.call(arguments, 2);
+clean.func.bind = function(funArg, context) {
+	var partial = Array.prototype.splice.apply(arguments, [2]);
 
-    // 바운드 함수를 만듭니다.
-    var Bound = function(){
-        // apply에 전달할 매개변수 배열이 필요합니다.
-        var args = partial.concat( Array.prototype.splice.call(arguments, 0) );
-        if ( false === ( funArg instanceof Bound ) ){
-            return funArg.apply( context, args );
-        }
+	// 바운드 함수를 만듭니다.
+	var Bound = function() {
+		// apply에 전달할 매개변수 배열이 필요합니다.
+		var args = partial.concat(Array.prototype.splice.apply(arguments, [0]));
+		if (false === ( funArg instanceof Bound )) {
+			return funArg.apply(context, args);
+		}
 
-        funArg.apply( funArg, args );
-    }
+		funArg.apply(funArg, args);
+	};
 
-    // 프로토타입
-    Bound.prototype = funArg.prototype;
-    return Bound;
+	// 프로토타입
+	Bound.prototype = funArg.prototype;
+	return Bound;
+};
+
+/**
+ * 함수를 nDelayTime 만큼 지연 호출한다.
+ *
+ * @param {Function} fnArg - 호출할 함수
+ * @param {Number} nDelayTime - 지연호출 시간
+ */
+clean.func.delay = function(fnArg, nDelayTime) {
+    var aPartial = Array.prototype.splice.apply( arguments, [2] );
+    var fnWrapped = function(){
+        fnArg.apply(null, aPartial);
+    };
+
+    setTimeout(fnWrapped, nDelayTime);
 };
 
 // 몇초를 기다릴까나?
