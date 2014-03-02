@@ -26,9 +26,9 @@ clean;
 	helper : {},
 
 	// 브라우저 전용 패키지들
-	dom : {},
-	evt : {},
-	effect : {},
+	dom : {
+		effect : {}
+	},
 	cookie : {},
 	ajax : {},
 

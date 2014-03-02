@@ -26,9 +26,9 @@ clean;
 	helper : {},
 
 	// 브라우저 전용 패키지들
-	dom : {},
-	evt : {},
-	effect : {},
+	dom : {
+		effect : {}
+	},
 	cookie : {},
 	ajax : {},
 
@@ -566,13 +566,36 @@ clean.date.now = function() {
 	return new Date();
 };
 
+//TODO:
 // 1. 두번째 파라미터가 object면, element의 attribute를 지정한다!!
-// 예) clean.dom.attr(e, { type : 'text' });
+// 예) clean.dom.attr(el, { type : 'text' });
 // 2. 두번째 파라미터가 string이면, element의 attribute를 가져온다!!
-// 예) clean.dom.attr(e, 'type'); -> 'text'
-// TODO: 
+// 예) clean.dom.attr(el, 'type'); -> 'text'
+clean.dom.attr = function(el, data) {
+	//REQUIRED: el
+	//REQUIRED: data
+
+	// data가 object면!!
+	if (clean.is.object(data) === true) {
+
+		// object의 프로퍼티를 하나씩 돌면서,
+		clean.object.each(data, function(value, key) {
+
+			// el의 attribute로 삽입!!
+			el.setAttribute(key, value);
+		});
+	}
+
+	// data가 string이면!!
+	else if (clean.is.string(data) === true) {
+
+		// el의 attribute를 반환!!!
+		return el.getAttribute(data);
+	}
+};
+
 // element의 attribute들을 객체로 가져온다!!
-// 예) clean.dom.attrs(e); -> { type : 'text' }
+// 예) clean.dom.attrs(el); -> { type : 'text' }
 // TODO: 
 // 문서 높이 구하기인데... 마땅히 어디다가 둘때가;;;
 //COMMENT: 여기 두심 됩니당!! ㅋㅋ 이름은 좀 변경 했어용!!
@@ -604,14 +627,25 @@ clean.dom.findAll = function(selectors) {
 	return document.querySelectorAll(selectors);
 };
 
+//TODO:
+//TODO:
+// element의 attribute를 지운다!!!
+// TODO: 
+//TODO:
+// element의 style을 지운다!!!
+// TODO: 
 // 1. 두번째 파라미터가 object면, element의 style을 지정한다!!
-// 예) clean.dom.style(e, { fontSize : 16 });
+// 예) clean.dom.style(el, { fontSize : 16 });
 // 2. 두번째 파라미터가 string이면, element의 style을 가져온다!!
-// 예) clean.dom.style(e, 'fontSize'); -> 16
+// 예) clean.dom.style(el, 'fontSize'); -> 16
 // TODO: 
 // element의 style들을 객체로 가져온다!!
-// 예) clean.dom.styles(e); -> { fontSize : 16 }
+// 예) clean.dom.styles(el); -> { fontSize : 16 }
 // TODO: 
+//TODO:
+//TODO:
+
+
 /**
  * 특정 콘텍스트에 바인딩한 함수를 만들어서 돌려줍니다.
  * @param {Function} funArg
