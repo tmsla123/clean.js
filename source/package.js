@@ -27,7 +27,10 @@ clean;
 
 	// 브라우저 전용 패키지들
 	dom : {},
+	evt : {},
+	effect : {},
 	cookie : {},
+	ajax : {},
 
 	// 모듈
 	module : {},
