@@ -1,7 +1,7 @@
 // 배열들의 교집합을 구한다.
 clean.array.intersection = function(array) {
-	// REQUIRED array
-	// OPTIONAL array arguments
+	//REQUIRED: array
+	//OPTIONAL: array arguments
 
 	// 인자로 들어온 배열들을 하나의 배열로!
 	var rest = Array.prototype.slice.call(arguments, 1);
@@ -12,6 +12,6 @@ clean.array.intersection = function(array) {
 		// 일치 한다면 필터에 걸린다!
 		return clean.array.every(rest, function(other) {
 			return clean.array.contains(other, value);
-	    });
+		});
 	});
-}
+};

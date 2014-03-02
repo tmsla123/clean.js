@@ -46,49 +46,58 @@ if ( typeof exports !== 'undefined') {
 
 // NaN, false, undefined, empty value를 제외한 값을 반환한다
 clean.array.compact = function(array) {
-	// REDUIRED array
+	//REDUIRED: array
 
 	return clean.array.filter(array, function(value) {
 		// 한방에 할 수 있는거 없나요 ㅠㅠ
-		if(value !== 'undefined' && !isNaN(value) && value !== false && value !== 0 && value !== '') {
-			return true
+		if (value !== 'undefined' && isNaN(value) === false && value !== false && value !== 0 && value !== '') {
+			return true;
 		} else {
-			return false
+			return false;
 		}
 	});
-}
+};
 
 // 배열 요소가 포함되어있는지 확인
 clean.array.contains = function(array, search) {
-    // REQUIRED array
-    // REQUIRED search
+	//REQUIRED: array
+	//REQUIRED: search
 
 	// 배열이 아니거나 값이없으면 false
-	if (!clean.is.array(array) || array.length == 0) return false;
+	if (clean.is.array(array) === false || array.length == 0) {
+		return false;
+	}
 
 	// 인덱스 검사
-    if (array.indexOf === Array.prototype.indexOf) return array.indexOf(search) != -1;
+	if (array.indexOf === Array.prototype.indexOf) {
+		return array.indexOf(search) != -1;
+	}
 
-    // indexOf가 없다면 값을 찾는다
-    var check = false;
-    var
-    // 인덱스에요.
-    index, leng;
+	// indexOf가 없다면 값을 찾는다
+	var check = false;
 
-    // 모든 요소를 둘러봅니다.
-    for ( index = 0, leng = array.length; index < leng; index++) {
-        // 요소를 callback으로 쏴줘요!
-        // callback 에서 elem 혹은 this로 개별 변수에 접근합니다.
-        if(array[index] === search) check = true; break;
-    }
-    
-    return check;
-}
+	var
+	// 인덱스에요.
+	index, leng;
+
+	// 모든 요소를 둘러봅니다.
+	for ( index = 0, leng = array.length; index < leng; index += 1) {
+		// 요소를 callback으로 쏴줘요!
+		// callback 에서 elem 혹은 this로 개별 변수에 접근합니다.
+		if (array[index] === search) {
+			check = true;
+		}
+
+		break;
+	}
+
+	return check;
+};
 
 // 배열에서 해당 값이 몇개 존재하는지 찾기
 clean.array.count = function(array, search) {
-	// REQUIRED: array
-	// REQUIRED: value
+	//REQUIRED: array
+	//REQUIRED: value
 
 	var
 	// 카운트
@@ -98,15 +107,18 @@ clean.array.count = function(array, search) {
 	clean.array.each(array, function(value) {
 
 		// 검사가 일치하면!
-		if (search === value) count++;
+		if (search === value) {
+			count += 1;
+		}
 	});
 
 	// 최종적으로 찾은 값 반환
 	return count;
 };
+
 clean.array.difference = function() {
-	// OPTIONAL array, array, array...
-	
+	//OPTIONAL array, array, array...
+
 	var result = [];
 
 	// 모든 배열을 합친다!
@@ -118,19 +130,19 @@ clean.array.difference = function() {
 		// 하나씩만 있는 것들을 찾아낸다.
 		return clean.array.count(result, value) === 1;
 	});
-}
+};
 
 // 배열의 요소를 각각 처리한다!
 clean.array.each = function(array, callback) {
-	// REQUIRED: array
-	// REQUIRED: callback(elem, index of elem){...}
-	
+	//REQUIRED: array
+	//REQUIRED: callback(elem, index of elem){...}
+
 	var
 	// 인덱스에요.
 	index, leng;
 
 	// 모든 요소를 둘러봅니다.
-	for ( index = 0, leng = array.length; index < leng; index++) {
+	for ( index = 0, leng = array.length; index < leng; index += 1) {
 		// 요소를 callback으로 쏴줘요!
 		// callback 에서 elem 혹은 this로 개별 변수에 접근합니다.
 		callback.apply(array[index], [array[index], index]);
@@ -139,18 +151,18 @@ clean.array.each = function(array, callback) {
 
 // 배열의 모든 멤버가 지정된 조건에 충족하는지 여부를 확인합니다.
 clean.array.every = function(array, callback, args) {
-    // REQUIRED: array
-	// REQUIRED: callback(elem, index of elem, args){...}
-	// OPTIONAL: args
-	
+	//REQUIRED: array
+	//REQUIRED: callback(elem, index of elem, args){...}
+	//OPTIONAL: args
+
 	var
 	// 인덱스에요.
 	index, leng;
 
 	// 모든 요소를 둘러봅니다.
-	for ( index = 0, leng = array.length; index < leng; index++) {
-		// 모두 조건에 부합해야 true, 그 외에는 false 
-		if(!callback.apply(array[index], [array[index], index], [array[index], index, args])) {
+	for ( index = 0, leng = array.length; index < leng; index += 1) {
+		// 모두 조건에 부합해야 true, 그 외에는 false
+		if (callback.apply(array[index], [array[index], index], [array[index], index, args]) === false) {
 			return false;
 		}
 	}
@@ -160,8 +172,8 @@ clean.array.every = function(array, callback, args) {
 
 // 배열에서 값들 찾아갖고 배열로 반환!
 clean.array.filter = function(array, check) {
-	// REQUIRED: array
-	// REQUIRED: check
+	//REQUIRED: array
+	//REQUIRED: check
 
 	var
 	// 찾은 값들
@@ -184,8 +196,8 @@ clean.array.filter = function(array, check) {
 
 // 배열에서 값 찾기
 clean.array.find = function(array, check) {
-	// REQUIRED: array
-	// REQUIRED: check
+	//REQUIRED: array
+	//REQUIRED: check
 
 	var
 	// 찾은 값
@@ -199,7 +211,7 @@ clean.array.find = function(array, check) {
 
 			// 값을 삽입!
 			find = value;
-			
+
 			// each 종료!
 			return;
 		}
@@ -211,18 +223,18 @@ clean.array.find = function(array, check) {
 
 // 배열의 첫번째 요소를 n만큼 반환한다.
 clean.array.first = function(array, n) {
-	// REQUIRED: array
-	// OPTIONAL n
-	
+	//REQUIRED: array
+	//OPTIONAL: n
+
 	// 결과
 	var result = [];
 	// 배열길이
-	var length=array.length;
+	var length = array.length;
 
 	n = arguments[1] || 1;
 
 	// 배열이고 사이즈가 0보다 크며 n이 양수인 경우
-	if(clean.is.array(array) && length > 0 && n > 0) {
+	if (clean.is.array(array) && length > 0 && n > 0) {
 		result = array.slice(0, n);
 	}
 
@@ -231,8 +243,8 @@ clean.array.first = function(array, n) {
 
 // 배열들의 교집합을 구한다.
 clean.array.intersection = function(array) {
-	// REQUIRED array
-	// OPTIONAL array arguments
+	//REQUIRED: array
+	//OPTIONAL: array arguments
 
 	// 인자로 들어온 배열들을 하나의 배열로!
 	var rest = Array.prototype.slice.call(arguments, 1);
@@ -243,18 +255,18 @@ clean.array.intersection = function(array) {
 		// 일치 한다면 필터에 걸린다!
 		return clean.array.every(rest, function(other) {
 			return clean.array.contains(other, value);
-	    });
+		});
 	});
-}
+};
 
 // 배열 요소에 대해 method 함수를 invoke 한다.
 clean.array.invoke = function(array, method) {
-	// REQUIRED array
-	// REQUIRED method
-	// OPTIONAL args, args, args...
+	//REQUIRED: array
+	//REQUIRED: method
+	//OPTIONAL: args, args, args...
 
 	// argument가 있으면..
-	var args =  Array.prototype.slice.call(arguments, 2);
+	var args = Array.prototype.slice.call(arguments, 2);
 
 	// 배열을 돌면서
 	return clean.array.map(array, function(value) {
@@ -265,18 +277,18 @@ clean.array.invoke = function(array, method) {
 
 // 배열의 마지막 요소를 n만큼 반환한다.
 clean.array.last = function(array, n) {
-	// REQUIRED: array
-	// OPTIONAL n
-	
+	//REQUIRED: array
+	//OPTIONAL: n
+
 	// 결과
 	var result = [];
 	// 배열길이
-	var length=array.length;
+	var length = array.length;
 
 	n = arguments[1] || 1;
 
 	// 배열이고 사이즈가 0보다 크며 n이 양수인 경우
-	if(clean.is.array(array) && length > 0 && n > 0) {
+	if (clean.is.array(array) && length > 0 && n > 0) {
 		result = array.slice(-n);
 	}
 
@@ -285,8 +297,8 @@ clean.array.last = function(array, n) {
 
 // 배열 요소에 callback 처리한 배열을 구한다
 clean.array.map = function(array, callback) {
-	// REQUIRED: array
-	// REQUIRED: callback
+	//REQUIRED: array
+	//REQUIRED: callback
 
 	var result = [];
 
@@ -300,7 +312,7 @@ clean.array.map = function(array, callback) {
 
 // 배열에서 최대 값 찾기
 clean.array.max = function(array) {
-	// REQUIRED: array
+	//REQUIRED: array
 
 	var
 	// 찾은 최대값
@@ -322,7 +334,7 @@ clean.array.max = function(array) {
 
 // 배열에서 최소 값 찾기
 clean.array.min = function(array) {
-	// REQUIRED: array
+	//REQUIRED: array
 
 	var
 	// 찾은 최소값
@@ -344,44 +356,44 @@ clean.array.min = function(array) {
 
 // 키배열과 값배열을 가지고 객체 생성
 clean.array.object = function(array, values) {
-	// REQUIRED array
-	// REQUIRED values
+	//REQUIRED: array
+	//REQUIRED: values
 
 	var result = {};
-	
+
 	clean.array.each(array, function(value, index) {
 		// 키값에 값을 집어넣는다!
 		result[value] = values[index];
 	});
 
 	return result;
-}
+};
 
-// 배열을 해당 범위만큼 만든다
+// 배열을 해당 범위만큼 만든다!!
 clean.array.range = function(start, stop, step) {
-	// OPTIONAL start
-	// REQUIRED: stop
-	// OPTIONAL step
-	
+	//OPTIONAL: start
+	//REQUIRED: stop
+	//OPTIONAL: step
+
 	var array = [];
 	var index;
 	var argLength = arguments.length;
 
 	// 인자가 정수가 아니면 빈 배열을 리턴
-	for(index=0; index<argLength; index++) {
-		if(clean.is.integer(arguments[index]) === false) {
+	for ( index = 0; index < argLength; index += 1) {
+		if (clean.is.integer(arguments[index]) === false) {
 			return array;
 		}
 	}
-	
+
 	// 인자가 하나인 경우 stop으로 간주
 	if (arguments.length <= 1) {
-    	stop = start;
-    	start = 0;
-    }
+		stop = start;
+		start = 0;
+	}
 
 	step = arguments[2] || 1;
-	for(index=start; index < stop; index = index + step) {
+	for ( index = start; index < stop; index = index + step) {
 		array.push(index);
 	}
 
@@ -397,7 +409,7 @@ clean.array.reject = function(array, check) {
 
 	clean.array.each(array, function(value) {
 		// 조건에 안맞으면!
-		if(!check(value)) {
+		if (check(value) === false) {
 			result.push(value);
 		}
 	});
@@ -407,17 +419,17 @@ clean.array.reject = function(array, check) {
 
 // 배열에서 값을 제거 한다.
 clean.array.remove = function(array) {
-	// REQUIRED: array
-	// OPTIONAL element, element, element...
+	//REQUIRED: array
+	//OPTIONAL element, element, element...
 
 	// 결과 배열
 	var result = array.slice(0);
 
 	clean.object.each(arguments, function(arg, key) {
 		// 해당 배열 외 인자값이 있다면
-		if(key > 0) {
+		if (key > 0) {
 			var index = result.indexOf(arg);
-			if(index > -1) {
+			if (index > -1) {
 				// 존재하는 값을 제거한다.
 				result.splice(index, 1);
 			}
@@ -425,11 +437,11 @@ clean.array.remove = function(array) {
 	});
 
 	return result;
-}
+};
 
 // 배열들의 합집합을 구한다.
 clean.array.union = function() {
-	// OPTIONAL array, array, array...
+	//OPTIONAL array, array, array...
 
 	var result = [];
 
@@ -440,12 +452,12 @@ clean.array.union = function() {
 
 	// 유니크한 값만 고르기!
 	return clean.array.unique(result);
-}
+};
 
 // 배열에서 유니크한 값만 뽑아낸다
 clean.array.unique = function(array) {
-	// REQUIRED: array
-	
+	//REQUIRED: array
+
 	// 결과
 	var result = [];
 
@@ -453,11 +465,12 @@ clean.array.unique = function(array) {
 	clean.array.each(array, function(value) {
 
 		// value 를 포함하고 있지 않으면 푸시!
-		if (!clean.array.contains(result, value)) {
+		if (clean.array.contains(result, value) === false) {
 			result.push(value);
 		}
 	});
 
+	// 결과 반환!!!
 	return result;
 };
 

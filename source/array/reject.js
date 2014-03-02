@@ -7,7 +7,7 @@ clean.array.reject = function(array, check) {
 
 	clean.array.each(array, function(value) {
 		// 조건에 안맞으면!
-		if(!check(value)) {
+		if (check(value) === false) {
 			result.push(value);
 		}
 	});

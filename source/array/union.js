@@ -1,6 +1,6 @@
 // 배열들의 합집합을 구한다.
 clean.array.union = function() {
-	// OPTIONAL array, array, array...
+	//OPTIONAL array, array, array...
 
 	var result = [];
 
@@ -11,4 +11,4 @@ clean.array.union = function() {
 
 	// 유니크한 값만 고르기!
 	return clean.array.unique(result);
-}
+};

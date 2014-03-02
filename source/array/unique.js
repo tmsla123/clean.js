@@ -1,7 +1,7 @@
 // 배열에서 유니크한 값만 뽑아낸다
 clean.array.unique = function(array) {
-	// REQUIRED: array
-	
+	//REQUIRED: array
+
 	// 결과
 	var result = [];
 
@@ -9,10 +9,11 @@ clean.array.unique = function(array) {
 	clean.array.each(array, function(value) {
 
 		// value 를 포함하고 있지 않으면 푸시!
-		if (!clean.array.contains(result, value)) {
+		if (clean.array.contains(result, value) === false) {
 			result.push(value);
 		}
 	});
 
+	// 결과 반환!!!
 	return result;
 };
