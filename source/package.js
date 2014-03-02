@@ -12,7 +12,7 @@ clean;
 
 	// 데이터 처리
 	object : {},
-    function : {},
+	func : {},
 	array : {},
 	date : {},
 	string : {},
@@ -31,7 +31,7 @@ clean;
 
 	// 모듈
 	module : {},
-	
+
 	// 다국어 지원 (i18n)
 	korean : {}
 };
