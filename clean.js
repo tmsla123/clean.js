@@ -12,6 +12,7 @@ clean;
 
 	// 데이터 처리
 	object : {},
+    function : {},
 	array : {},
 	date : {},
 	string : {},
@@ -584,6 +585,22 @@ clean.dom.find = function(selectors) {
 	return document.querySelector(selectors);
 };
 
+clean.function.bind = function (funArg, context){
+
+    var	partial	= Array.prototype.splice.call(arguments, 2);
+    var bound = function(){
+        var args = partial.concat( Array.prototype.splice.call(arguments, 0) );
+        if ( false === ( funArg instanceof bound ) ){
+            return funArg.apply( context, args );
+        }
+
+        funArg.apply( funArg, args );
+    }
+
+    bound.prototype = funArg.prototype;
+    return bound;
+};
+
 // 몇초를 기다릴까나?
 clean.helper.delay = function(seconds, func) {
 
@@ -648,10 +665,28 @@ clean.info.browser = function() {
 };
 
 // 디바이스 정보를 가져옵니다.
-clean.info.device = function(target) {
-	//TODO:
-};
+clean.info.device = (function(){
+	var agent = navigator.userAgent;
+	var isIOS = agent.match(/(iPad|iPhone|iPod)/g) ? true : false;
+	var ios = (function(){
+		if(isIOS){
+			var startPoint = agent.indexOf('OS ');
+			if((agent.indexOf('iPhone') > -1 || agent.indexOf('iPad') > -1) && startPoint > -1){
+				return 1 * (agent.substr(startPoint + 3, 3).replace('_', '.'));
+			}
+		}else{
+			return false;
+		}
+	})();
 
+	// device.isIOS : IOS면 true 아니면 false
+	// device.ios : ios7일 경우 7, ios6.1일 경우 6.1을 리턴, 아니면 false
+	// 개인적으로는 html에 ios ios-7 클래스 등을 덧붙이도록 만들어서 사용하고 있습니다.
+	return {
+		isIOS : isIOS,
+		ios : ios
+	}
+})();
 // 랜덤한 정수 반환~!
 clean.integer.random = function(min, max) {
 	//OPTIONAL: min: 최소값

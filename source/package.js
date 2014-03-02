@@ -12,6 +12,7 @@ clean;
 
 	// 데이터 처리
 	object : {},
+    function : {},
 	array : {},
 	date : {},
 	string : {},
