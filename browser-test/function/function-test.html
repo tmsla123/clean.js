@@ -3,52 +3,16 @@
 	<head>
 		<meta charset="utf-8">
 		<title>function 테스트</title>
+
+        <link rel="stylesheet" href="/resources/vendor/qunit/qunit-1.14.0.css">
+        <script src="/resources/vendor/qunit/qunit-1.14.0.js"></script>
 	</head>
 	<body>
-		<script src="/clean.js"></script>
-		<script>
-            function Dog(){
-                this.sound = "멍멍";
-                this.cry = function(where, as){
-                    var message = "";
+        <div id="qunit"></div>
+        <div id="qunit-fixture"></div>
 
-                    if(where){
-                        message = where + "에서 ";
-                    }
-
-                    if(as){
-                        message = message + as + "처럼 ";
-                    }
-
-                    console.log(message + this.sound);
-                }
-            }
-
-            function Cat(){
-                this.sound = "야옹";
-                this.cry = function(where, as){
-                    var message = "";
-
-                    if(where){
-                        message = where + "에서 ";
-                    }
-
-                    if(as){
-                        message = message + as + "처럼 ";
-                    }
-
-                    console.log(message + this.sound);
-                }
-            }
-
-            var dog = new Dog();
-            var cat = new Cat();
-
-            var fnBindedCry = clean.function.bind(dog.cry, cat, "집", "바보");
-
-            dog.cry();
-            fnBindedCry();
-
-		</script>
+        <script src="/source/package.js"></script>
+		<script src="/source/func/bind.js"></script>
+        <script src="function.test.spec.js"></script>
 	</body>
 </html>
