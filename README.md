@@ -24,7 +24,7 @@ node.js
 목표
 ----
 <del>underscore.js( http://underscorejs.org )를 뛰어넘는 멋진 JavaScript 라이브러리!</del>
-목표 수정! 이번엔 jQuery?
+목표 달성! 이번엔 jQuery?
 
 이것만은 지켜주세요!
 ----
