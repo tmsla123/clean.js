@@ -49,10 +49,18 @@ node.js
 2. root 폴더에서 node build를 입력해요! 그럼 clean.js가 새로 만들어집니다!<br>(참고로 nodemon이 설치되어 있으면 nodemon build 이렇게 해두면 source 수정할 때마다 자동으로 빌드함!)
 3. test 폴더에 테스트용 html파일을 아무렇게나 작성하여 실행합니다!!
 
+QUnit
+-----
+- QUnit(https://qunitjs.com)은 clean.js의 공식 테스트 프레임워크입니다.
+
+호환성
+---
+- clean.js는 ECMAScript 5 스펙에 맞추어 개발됩니다.  (ES5는 IE 9 이상부터 지원합니다.)
+
 커미터
 ---
 원래 한분한분 아이디 작성해 놓았는데 넘 길어지는것 같아 숫자로 대신합니다!<br>
-현재 총 29분(>=)의 커미터가 계십니다!
+현재 총 42분(>=)의 커미터가 계십니다!
 
 타임라인
 ---
