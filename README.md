@@ -51,7 +51,7 @@ node.js
 
 QUnit
 -----
-- QUnit(https://qunitjs.com)은 clean.js의 공식 테스트 프레임워크입니다.
+- QUnit( https://qunitjs.com )은 clean.js의 공식 테스트 프레임워크입니다.
 
 호환성
 ---
