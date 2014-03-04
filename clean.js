@@ -738,6 +738,72 @@ clean.func.delay = function(fnArg, nDelayTime) {
     setTimeout(fnWrapped, nDelayTime);
 };
 
+// 만 나이를 구하는 함수에요. 미쿡나이죠.
+// 
+clean.helper.age = function(yyyymmdd) {
+	//REQUIRED: yyyymmdd 태어난 생년월일이에요. 예) 19800205
+
+	var 
+	//리턴할 만 나이
+	age;
+
+	var yyyy = clean.to.integer(clean.to.string(yyyymmdd).substring(0,4));
+	var mmdd = clean.to.string(yyyymmdd).substring(4,6) + clean.to.string(yyyymmdd).substring(6,8);
+
+	var d = new Date();
+	var tmonth = d.getMonth() + 1; //getMonth는 0(1월)~11(12월)을 반환합니다.
+	var tdate = d.getDate();
+
+	//자리수를 맞춰주기 위한 처리. 한 자리일 떄 앞에 0을 붙여줍니다.
+	var today = ((tmonth < 10)? '0' + tmonth : tmonth) + ((tdate < 10)? '0' + tdate : tdate);
+	var age = d.getFullYear() - yyyy + 1;
+
+	//생일이 지났는지 체크하여 계산
+	if (today < mmdd) {
+		age = age - 2;
+	} else {
+		age = age - 1;
+	}
+
+	return age;
+};
+
+clean.helper.base64Encode = function(input) {
+	
+	 input = escape(input);
+     var output = "";
+     var chr1, chr2, chr3 = "";
+     var enc1, enc2, enc3, enc4 = "";
+     var i = 0;
+
+     do {
+        chr1 = input.charCodeAt(i++);
+        chr2 = input.charCodeAt(i++);
+        chr3 = input.charCodeAt(i++);
+
+        enc1 = chr1 >> 2;
+        enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+        enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+        enc4 = chr3 & 63;
+
+        if (isNaN(chr2)) {
+           enc3 = enc4 = 64;
+        } else if (isNaN(chr3)) {
+           enc4 = 64;
+        }
+
+        output = output +
+           keyStr.charAt(enc1) +
+           keyStr.charAt(enc2) +
+           keyStr.charAt(enc3) +
+           keyStr.charAt(enc4);
+        chr1 = chr2 = chr3 = "";
+        enc1 = enc2 = enc3 = enc4 = "";
+     } while (i < input.length);
+
+     return output;
+}
+
 // 몇초를 기다릴까나?
 clean.helper.delay = function(seconds, func) {
 

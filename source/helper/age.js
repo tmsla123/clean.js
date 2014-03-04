@@ -1,7 +1,6 @@
 // 만 나이를 구하는 함수에요. 미쿡나이죠.
 // 
-clean.helper.getAge = function(yyyymmdd) {
-	
+clean.helper.age = function(yyyymmdd) {
 	//REQUIRED: yyyymmdd 태어난 생년월일이에요. 예) 19800205
 
 	var 
