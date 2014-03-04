@@ -14,11 +14,11 @@ console.log(clean.date.now());
 Wed Feb 26 2014 16:42:09 GMT+0700 (ICT)
 ```
 
-##getTimeStamp
+##timeStamp
 이 것은 자네가 만약 디버깅을 할경우나 `년년년년-월월-일일 시시:분분:초초` 형식으로 날짜와 시간을 보고싶다면 아래의 코드를 이용하면 된다네.
 ```
 //코드
-console.log(clean.date.getTimeStamp());
+console.log(clean.date.timeStamp());
 
 //결과
 2014-02-26 16:42:09

@@ -1,8 +1,8 @@
-// 요기는 패키지 정보를 담고있어요.
+// 요기는 namespace 정보를 담고있어요.
 // 헤헤
 
 var
-// root package
+// root
 clean;
 
 // 패키지 정보에요!
@@ -12,10 +12,11 @@ clean;
 
 	// 데이터 처리
 	object : {},
+	func : {},
 	array : {},
 	date : {},
 	string : {},
-	number : {},
+	integer : {},
 	bool : {},
 
 	// helpers
@@ -25,11 +26,17 @@ clean;
 	helper : {},
 
 	// 브라우저 전용 패키지들
-	dom : {},
+	dom : {
+		effect : {}
+	},
 	cookie : {},
+	ajax : {},
 
 	// 모듈
-	module : {}
+	module : {},
+
+	// 다국어 지원 (i18n)
+	korean : {}
 };
 
 // node.js에서 실행하면 node.js 모듈로 넘겨요!
@@ -37,39 +44,130 @@ if ( typeof exports !== 'undefined') {
 	module.exports = clean;
 }
 
+// NaN, false, undefined, empty value를 제외한 값을 반환한다
+clean.array.compact = function(array) {
+	//REDUIRED: array
+
+	return clean.array.filter(array, function(value) {
+		// 한방에 할 수 있는거 없나요 ㅠㅠ
+		if (value !== 'undefined' && isNaN(value) === false && value !== false && value !== 0 && value !== '') {
+			return true;
+		} else {
+			return false;
+		}
+	});
+};
+
 // 배열 요소가 포함되어있는지 확인
 clean.array.contains = function(array, search) {
+	//REQUIRED: array
+	//REQUIRED: search
+
 	// 배열이 아니거나 값이없으면 false
-	if (!clean.is.array(array) || array.length == 0) return false;
+	if (clean.is.array(array) === false || array.length == 0) {
+		return false;
+	}
 
 	// 인덱스 검사
-    if (array.indexOf === Array.prototype.indexOf) return array.indexOf(search) != -1;
+	if (array.indexOf === Array.prototype.indexOf) {
+		return array.indexOf(search) != -1;
+	}
 
-    // indexOf가 없다면 값을 찾는다
-    return clean.array.each(array, function(value) {
-    	if(value === search) {
-    		return true;
-    	}
-    });
+	// indexOf가 없다면 값을 찾는다
+	var check = false;
 
-    return false;
-}
-
-// 배열의 요소를 각각 처리한다!
-clean.array.each = function(array, callback) {
-	//REQUIRED: array
-	//REQUIRED: callback(elem, index of elem){...}
-	
 	var
 	// 인덱스에요.
 	index, leng;
 
 	// 모든 요소를 둘러봅니다.
-	for ( index = 0, leng = array.length; index < leng; index++) {
+	for ( index = 0, leng = array.length; index < leng; index += 1) {
+		// 요소를 callback으로 쏴줘요!
+		// callback 에서 elem 혹은 this로 개별 변수에 접근합니다.
+		if (array[index] === search) {
+			check = true;
+		}
+
+		break;
+	}
+
+	return check;
+};
+
+// 배열에서 해당 값이 몇개 존재하는지 찾기
+clean.array.count = function(array, search) {
+	//REQUIRED: array
+	//REQUIRED: value
+
+	var
+	// 카운트
+	count = 0;
+
+	// 배열의 값을 하나씩 보면서,
+	clean.array.each(array, function(value) {
+
+		// 검사가 일치하면!
+		if (search === value) {
+			count += 1;
+		}
+	});
+
+	// 최종적으로 찾은 값 반환
+	return count;
+};
+
+clean.array.difference = function() {
+	//OPTIONAL array, array, array...
+
+	var result = [];
+
+	// 모든 배열을 합친다!
+	clean.object.each(arguments, function(array) {
+		result = result.concat(array);
+	});
+
+	return clean.array.filter(result, function(value) {
+		// 하나씩만 있는 것들을 찾아낸다.
+		return clean.array.count(result, value) === 1;
+	});
+};
+
+// 배열의 요소를 각각 처리한다!
+clean.array.each = function(array, callback) {
+	//REQUIRED: array
+	//REQUIRED: callback(elem, index of elem){...}
+
+	var
+	// 인덱스에요.
+	index, leng;
+
+	// 모든 요소를 둘러봅니다.
+	for ( index = 0, leng = array.length; index < leng; index += 1) {
 		// 요소를 callback으로 쏴줘요!
 		// callback 에서 elem 혹은 this로 개별 변수에 접근합니다.
 		callback.apply(array[index], [array[index], index]);
 	}
+};
+
+// 배열의 모든 멤버가 지정된 조건에 충족하는지 여부를 확인합니다.
+clean.array.every = function(array, callback, args) {
+	//REQUIRED: array
+	//REQUIRED: callback(elem, index of elem, args){...}
+	//OPTIONAL: args
+
+	var
+	// 인덱스에요.
+	index, leng;
+
+	// 모든 요소를 둘러봅니다.
+	for ( index = 0, leng = array.length; index < leng; index += 1) {
+		// 모두 조건에 부합해야 true, 그 외에는 false
+		if (callback.apply(array[index], [array[index], index], [array[index], index, args]) === false) {
+			return false;
+		}
+	}
+
+	return true;
 };
 
 // 배열에서 값들 찾아갖고 배열로 반환!
@@ -113,7 +211,7 @@ clean.array.find = function(array, check) {
 
 			// 값을 삽입!
 			find = value;
-			
+
 			// each 종료!
 			return;
 		}
@@ -126,33 +224,52 @@ clean.array.find = function(array, check) {
 // 배열의 첫번째 요소를 n만큼 반환한다.
 clean.array.first = function(array, n) {
 	//REQUIRED: array
-	//OPTIONAL n
-	
+	//OPTIONAL: n
+
 	// 결과
 	var result = [];
 	// 배열길이
-	var length=array.length;
+	var length = array.length;
 
 	n = arguments[1] || 1;
 
 	// 배열이고 사이즈가 0보다 크며 n이 양수인 경우
-	if(clean.is.array(array) && length > 0 && n > 0) {
+	if (clean.is.array(array) && length > 0 && n > 0) {
 		result = array.slice(0, n);
 	}
 
 	return result;
 };
 
-// 객에 대해 method 함수를 invoke 한다.
-clean.array.invoke = function(obj, method) {
-	// REQUIRED obj
-	// REQUIRED method
+// 배열들의 교집합을 구한다.
+clean.array.intersection = function(array) {
+	//REQUIRED: array
+	//OPTIONAL: array arguments
+
+	// 인자로 들어온 배열들을 하나의 배열로!
+	var rest = Array.prototype.slice.call(arguments, 1);
+
+	// 필터링
+	return clean.array.filter(clean.array.unique(array), function(value) {
+		// 나머지 배열들에 대해서 각 배열들의 배열요소가 값과 일치하는지
+		// 일치 한다면 필터에 걸린다!
+		return clean.array.every(rest, function(other) {
+			return clean.array.contains(other, value);
+		});
+	});
+};
+
+// 배열 요소에 대해 method 함수를 invoke 한다.
+clean.array.invoke = function(array, method) {
+	//REQUIRED: array
+	//REQUIRED: method
+	//OPTIONAL: args, args, args...
 
 	// argument가 있으면..
-	var args =  Array.prototype.slice.call(arguments, 2);
+	var args = Array.prototype.slice.call(arguments, 2);
 
-	// 오브젝트를 돌면서
-	return clean.array.map(obj, function(value) {
+	// 배열을 돌면서
+	return clean.array.map(array, function(value) {
 		// 함수 실행
 		return (clean.is.func(method) ? method : value[method]).apply(value, args);
 	});
@@ -161,33 +278,33 @@ clean.array.invoke = function(obj, method) {
 // 배열의 마지막 요소를 n만큼 반환한다.
 clean.array.last = function(array, n) {
 	//REQUIRED: array
-	//OPTIONAL n
-	
+	//OPTIONAL: n
+
 	// 결과
 	var result = [];
 	// 배열길이
-	var length=array.length;
+	var length = array.length;
 
 	n = arguments[1] || 1;
 
 	// 배열이고 사이즈가 0보다 크며 n이 양수인 경우
-	if(clean.is.array(array) && length > 0 && n > 0) {
+	if (clean.is.array(array) && length > 0 && n > 0) {
 		result = array.slice(-n);
 	}
 
 	return result;
 };
 
-// 각 값에 callback 처리한 배열을 구한다
-clean.array.map = function(object, callback) {
-	//REQUIRED: object
+// 배열 요소에 callback 처리한 배열을 구한다
+clean.array.map = function(array, callback) {
+	//REQUIRED: array
 	//REQUIRED: callback
 
 	var result = [];
 
 	// callback 처리한 값의 배열을 반환
-	clean.object.each(object, function(arg) {
-		result.push(callback(arg));
+	clean.object.each(array, function(value) {
+		result.push(callback(value));
 	});
 
 	return result;
@@ -239,44 +356,44 @@ clean.array.min = function(array) {
 
 // 키배열과 값배열을 가지고 객체 생성
 clean.array.object = function(array, values) {
-	//REQUIRED array
-	//REQUIRED values
+	//REQUIRED: array
+	//REQUIRED: values
 
 	var result = {};
-	
-	clean.object.each(array, function(key, index) {
+
+	clean.array.each(array, function(value, index) {
 		// 키값에 값을 집어넣는다!
-		result[key] = values[index];
+		result[value] = values[index];
 	});
 
 	return result;
-}
+};
 
-// 배열을 해당 범위만큼 만든다
+// 배열을 해당 범위만큼 만든다!!
 clean.array.range = function(start, stop, step) {
-	//OPTIONAL start
+	//OPTIONAL: start
 	//REQUIRED: stop
-	//OPTIONAL step
-	
+	//OPTIONAL: step
+
 	var array = [];
 	var index;
 	var argLength = arguments.length;
 
 	// 인자가 정수가 아니면 빈 배열을 리턴
-	for(index=0; index<argLength; index++) {
-		if(clean.is.integer(arguments[index]) === false) {
+	for ( index = 0; index < argLength; index += 1) {
+		if (clean.is.integer(arguments[index]) === false) {
 			return array;
 		}
 	}
-	
+
 	// 인자가 하나인 경우 stop으로 간주
 	if (arguments.length <= 1) {
-    	stop = start;
-    	start = 0;
-    }
+		stop = start;
+		start = 0;
+	}
 
 	step = arguments[2] || 1;
-	for(index=start; index < stop; index = index + step) {
+	for ( index = start; index < stop; index = index + step) {
 		array.push(index);
 	}
 
@@ -284,16 +401,16 @@ clean.array.range = function(start, stop, step) {
 };
 
 // 조건에 해당하지 않는 객체만 배열로 반환
-clean.array.reject = function(object, callback) {
-	//REQUIRED: object
-	//REQUIRED: callback
+clean.array.reject = function(array, check) {
+	//REQUIRED: array
+	//REQUIRED: check
 
 	var result = [];
 
-	clean.object.each(object, function(arg) {
+	clean.array.each(array, function(value) {
 		// 조건에 안맞으면!
-		if(!callback(arg)) {
-			result.push(arg);
+		if (check(value) === false) {
+			result.push(value);
 		}
 	});
 
@@ -302,16 +419,17 @@ clean.array.reject = function(object, callback) {
 
 // 배열에서 값을 제거 한다.
 clean.array.remove = function(array) {
-	// REQUIRED: array
+	//REQUIRED: array
+	//OPTIONAL element, element, element...
 
 	// 결과 배열
 	var result = array.slice(0);
 
 	clean.object.each(arguments, function(arg, key) {
 		// 해당 배열 외 인자값이 있다면
-		if(key > 0) {
+		if (key > 0) {
 			var index = result.indexOf(arg);
-			if(index > -1) {
+			if (index > -1) {
 				// 존재하는 값을 제거한다.
 				result.splice(index, 1);
 			}
@@ -319,30 +437,27 @@ clean.array.remove = function(array) {
 	});
 
 	return result;
-}
+};
 
-// 모든 배열들을 합친다!
+// 배열들의 합집합을 구한다.
 clean.array.union = function() {
+	//OPTIONAL array, array, array...
+
 	var result = [];
-	
-	for(var i in arguments)  {
-		// 배열인 경우
-		if(clean.is.array(arguments[i])) {
-			// 모두 포함
-			clean.array.each(arguments[i], function(value) {
-				result.push(value);
-			});
-		}
-	}
+
+	// 모든 배열을 합친다!
+	clean.object.each(arguments, function(array) {
+		result = result.concat(array);
+	});
 
 	// 유니크한 값만 고르기!
 	return clean.array.unique(result);
-}
+};
 
 // 배열에서 유니크한 값만 뽑아낸다
 clean.array.unique = function(array) {
 	//REQUIRED: array
-	
+
 	// 결과
 	var result = [];
 
@@ -350,15 +465,22 @@ clean.array.unique = function(array) {
 	clean.array.each(array, function(value) {
 
 		// value 를 포함하고 있지 않으면 푸시!
-		if (!clean.array.contains(result, value)) {
+		if (clean.array.contains(result, value) === false) {
 			result.push(value);
 		}
 	});
 
+	// 결과 반환!!!
 	return result;
 };
 
-//TODO: true, false 중에 랜덤으로 반환하는 기능이 있으면 좋겠음여!
+// true, false 중 랜덤하게 반환~!
+clean.bool.random = function() {
+
+	// 0 이나 1 중에 랜덤하게 받아와서 0이면 false, 1이면 true!!
+	return clean.integer.random(1) === 1;
+};
+
 // 쿠키를 로드해요!
 clean.cookie.get = function(name) {
 	//REQUIRED: name
@@ -413,22 +535,13 @@ clean.cookie.value = function(offset) {
 	return unescape(document.cookie.substring(offset, endstr));
 };
 
-//getMonth 달을 구한다. 혹시나 ...아주 나중에....
-//진짜 나중에.... clean에서 다국어 지원한다면 요긴하게 쓰이겠지만...
-//아마 안쓰일꺼예요.... 아 그냥 그렇다구
-clean.dom.getMonth = function (int_month){
-	//REQUIRED: month : 숫자값이예유~
-	var month_array = new Array("1월", "2월", "3월",
-						   "4월", "5월", "6월",
-						   "7월", "8월", "9월",
-						   "10월", "11월", "12월")
-	return month_array[int_month]
-}
 // 날자를 읽기 편하게 보여줘용(YYYY-mm-dd HH:ii:ss)
-clean.date.getTimeStamp = function() {
+//COMMENT: 형식도 바꿀 수 있게 하면 어떨까요?!
+clean.date.timestamp = function() {
 	
+	var
 	//요 내부꺼는 좀더 간단하게 할수있음 알려주세용.. 무식하게 돌리는거라.... 따로 함수로 빼긴 그렇고...
-	this.leadingZeros = function(n, digits) {
+	leadingZeros = function(n, digits) {
 		//REQUIRED: n: 숫자에요~!
 		//REQUIRED: search: 0을 표시해줄 자릿수예요!!
 		
@@ -447,13 +560,13 @@ clean.date.getTimeStamp = function() {
 
 	var d = new Date();
 	var result =
-	this.leadingZeros(d.getFullYear(), 4) + '-' +
-	this.leadingZeros(d.getMonth() + 1, 2) + '-' +
-	this.leadingZeros(d.getDate(), 2) + ' ' +
+	leadingZeros(d.getFullYear(), 4) + '-' +
+	leadingZeros(d.getMonth() + 1, 2) + '-' +
+	leadingZeros(d.getDate(), 2) + ' ' +
 
-	this.leadingZeros(d.getHours(), 2) + ':' +
-	this.leadingZeros(d.getMinutes(), 2) + ':' +
-	this.leadingZeros(d.getSeconds(), 2);
+	leadingZeros(d.getHours(), 2) + ':' +
+	leadingZeros(d.getMinutes(), 2) + ':' +
+	leadingZeros(d.getSeconds(), 2);
 
 	return result;
 };
@@ -466,6 +579,75 @@ clean.date.now = function() {
 	return new Date();
 };
 
+//TODO:
+// 1. 두번째 파라미터가 object면, element의 attribute를 지정한다!!
+// 예) clean.dom.attr(el, { type : 'text' });
+// 2. 두번째 파라미터가 string이면, element의 attribute를 가져온다!!
+// 예) clean.dom.attr(el, 'type'); -> 'text'
+clean.dom.attr = function(el, data) {
+	//REQUIRED: el
+	//REQUIRED: data
+
+	// data가 object면!!
+	if (clean.is.object(data) === true) {
+
+		// object의 프로퍼티를 하나씩 돌면서,
+		clean.object.each(data, function(value, key) {
+
+			// el의 attribute로 삽입!!
+			el.setAttribute(key, value);
+		});
+	}
+
+	// data가 string이면!!
+	else if (clean.is.string(data) === true) {
+
+		// el의 attribute를 반환!!!
+		return el.getAttribute(data);
+	}
+};
+
+// element의 attribute들을 객체로 가져온다!!
+// 예) clean.dom.attrs(el); -> { type : 'text' }
+clean.dom.attrs = function(el) {
+
+	var
+	// attribute들!!
+	attrs = {},
+
+	// attribute 데이타!!!!
+	attrData,
+
+	// index!!
+	i;
+
+	for ( i = 0; i < el.attributes.length; i += 1) {
+
+		// attribute 데이타를 뽑아낸다.
+		attrData = el.attributes[i];
+
+		// 삽입!
+		attrs[attrData.nodeName] = attrData.nodeValue;
+	}
+
+	// 모은 attribute들을 반환한다!
+	return attrs;
+};
+
+// 문서 높이 구하기인데... 마땅히 어디다가 둘때가;;;
+//COMMENT: 여기 두심 됩니당!! ㅋㅋ 이름은 좀 변경 했어용!!
+clean.dom.docHeight = function() {
+
+	var d = document;
+	
+	// 현재 문서의 높히를 구해요!
+	return Math.max(
+		Math.max(d.body.scrollHeight, d.documentElement.scrollHeight),
+		Math.max(d.body.offsetHeight, d.documentElement.offsetHeight),
+		Math.max(d.body.clientHeight, d.documentElement.clientHeight)
+	);
+};
+
 // clean.js의 셀렉터입니다!
 clean.dom.find = function(selectors) {
 	//REQUIRED: selectors: css스타일의 쿼리 값
@@ -474,17 +656,88 @@ clean.dom.find = function(selectors) {
 	return document.querySelector(selectors);
 };
 
-// 문서 높이 구하기인데... 마땅히 어디다가 둘때가;;;
-clean.dom.getDocHeight = function() {
-	//REQUIRED: 현재 문서의 높히를 구해요!
+// clean.js의 셀렉터입니다!
+clean.dom.findAll = function(selectors) {
+	//REQUIRED: selectors: css스타일의 쿼리 값
 
-	var d = document;
-	return Math.max(
-		Math.max(d.body.scrollHeight, d.documentElement.scrollHeight),
-		Math.max(d.body.offsetHeight, d.documentElement.offsetHeight),
-		Math.max(d.body.clientHeight, d.documentElement.clientHeight)
-	);
+	// 일단은... IE8이상에서 지원하는 querySelectorAll으로 작성해 두었습니다!
+	return document.querySelectorAll(selectors);
 };
+
+//TODO:
+//TODO:
+// element의 attribute를 지운다!!!
+// TODO: 
+//TODO:
+// element의 style을 지운다!!!
+// TODO: 
+// 1. 두번째 파라미터가 object면, element의 style을 지정한다!!
+// 예) clean.dom.style(el, { fontSize : 16 });
+// 2. 두번째 파라미터가 string이면, element의 style을 가져온다!!
+// 예) clean.dom.style(el, 'fontSize'); -> 16
+// TODO: 
+
+clean.dom.style = function(el,data){
+	
+	if(clean.is.object(data) === true) {
+		
+	}
+	
+	
+	else if(clean.is.string(data) === true) {
+		
+		return el.getAttribute(data);
+	}
+
+};
+
+// element의 style들을 객체로 가져온다!!
+// 예) clean.dom.styles(el); -> { fontSize : 16 }
+// TODO: 
+//TODO:
+//TODO:
+
+
+/**
+ * 특정 콘텍스트에 바인딩한 함수를 만들어서 돌려줍니다.
+ * @param {Function} funArg
+ * @param {Object} context
+ * @returns {Function} {bound}
+ */
+clean.func.bind = function(funArg, context) {
+	var partial = Array.prototype.splice.apply(arguments, [2]);
+
+	// 바운드 함수를 만듭니다.
+	var Bound = function() {
+		// apply에 전달할 매개변수 배열이 필요합니다.
+		var args = partial.concat(Array.prototype.splice.apply(arguments, [0]));
+		if (false === ( funArg instanceof Bound )) {
+			return funArg.apply(context, args);
+		}
+
+		funArg.apply(funArg, args);
+	};
+
+	// 프로토타입
+	Bound.prototype = funArg.prototype;
+	return Bound;
+};
+
+/**
+ * 함수를 nDelayTime 만큼 지연 호출한다.
+ *
+ * @param {Function} fnArg - 호출할 함수
+ * @param {Number} nDelayTime - 지연호출 시간
+ */
+clean.func.delay = function(fnArg, nDelayTime) {
+    var aPartial = Array.prototype.splice.apply( arguments, [2] );
+    var fnWrapped = function(){
+        fnArg.apply(null, aPartial);
+    };
+
+    setTimeout(fnWrapped, nDelayTime);
+};
+
 // 몇초를 기다릴까나?
 clean.helper.delay = function(seconds, func) {
 
@@ -549,8 +802,45 @@ clean.info.browser = function() {
 };
 
 // 디바이스 정보를 가져옵니다.
-clean.info.device = function(target) {
-	//TODO:
+clean.info.device = (function(){
+	var agent = navigator.userAgent;
+	var isIOS = agent.match(/(iPad|iPhone|iPod)/g) ? true : false;
+	var ios = (function(){
+		if(isIOS){
+			var startPoint = agent.indexOf('OS ');
+			if((agent.indexOf('iPhone') > -1 || agent.indexOf('iPad') > -1) && startPoint > -1){
+				return 1 * (agent.substr(startPoint + 3, 3).replace('_', '.'));
+			}
+		}else{
+			return false;
+		}
+	})();
+
+	// device.isIOS : IOS면 true 아니면 false
+	// device.ios : ios7일 경우 7, ios6.1일 경우 6.1을 리턴, 아니면 false
+	// 개인적으로는 html에 ios ios-7 클래스 등을 덧붙이도록 만들어서 사용하고 있습니다.
+	return {
+		isIOS : isIOS,
+		ios : ios
+	}
+})();
+// 랜덤한 정수 반환~!
+clean.integer.random = function(min, max) {
+	//OPTIONAL: min: 최소값
+	//REQUIRED: max: 최대값
+
+	// max 부분에 값이 없으면 max가 아니라 min이 입력되지 않은것.
+	if (max === undefined) {
+
+		// max 값을 되찾고,
+		max = min;
+
+		// 기본값인 0을 넣어줍니다!
+		min = 0;
+	}
+
+	// Math 함수들을 이용해서 랜덤한 정수를 반환!!!
+	return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
 //TODO: arguments 객체인지 확인하는 기능이 필요합니다!!
@@ -726,6 +1016,21 @@ clean.is.string = function(target) {
 	return typeof target === 'string' || target instanceof String;
 
 	//COMMENT: 매우 만족합니당!
+};
+
+// 달을 구한다. 혹시나 ...아주 나중에....
+// 진짜 나중에.... clean에서 다국어 지원한다면 요긴하게 쓰이겠지만...
+// 아마 안쓰일꺼예요.... 아 그냥 그렇다구
+//COMMENT: ㅋㅋ 한국어 지원인 만큼 korean 패키지로 이동했습니다.
+clean.korean.month = function (month){
+	//REQUIRED: month: 숫자값이예유~
+	
+	var monthArray = new Array("1월", "2월", "3월",
+						   "4월", "5월", "6월",
+						   "7월", "8월", "9월",
+						   "10월", "11월", "12월");
+
+	return monthArray[month];
 };
 
 // 문자열의 특정 값들을 치환하는 템플릿을 생성합니다!!
@@ -921,7 +1226,6 @@ clean.module.Validator = (function(){
 })();
 
 
-//TODO: 랜덤 숫자를 반환하는 기능 작성할 필요가 있어요!
 // 객체 파워 복사!!!
 clean.object.copy = function(object) {
 	//REQUIRED: object
@@ -1483,28 +1787,36 @@ clean.to.array = function(thing) {
 	//TODO: 어똫게 array로 바꾸지?
 };
 
-// 정수로 바꾼다!
+// 정수로 바꾼다! (32비트 이상도 처리)
 clean.to.integer = function(thing) {
 	//REQUIRED: thing: 변경할 대상
-	
-/*
-js의 비트연산자는 기본적으로 32비트 signed int를 대상으로 합니다. 
-피연산자가 다른 형식일 경우 자동으로 해당 형식으로 변환한 뒤 연산
-을 시도하구요.  이 과정이 단순히 parseInt를 사용하는지는 모르겠는
-데, "0xff"같은 문자열도 16진수로 변환해서 처리를 해주더라구요. 스
-펙문서를 제가 못 찾은건지 그건 확인을 못 해봤지만,  어쨌든 그래서
-비트연산의 대상이 되면 소수점같은거 없는 깔끔한 정수가 됩니다.
 
-또한, 반환값도 당연히 32비트 정수로 정해져 있기 때문에  null  NaN
-undefined infinity 그런거 없이 무조건 0을 반환합니다.  예외도 발생
-시키지 않구요.   이는 어떠한 값을 "반드시 정수일 것을 보장" 하기에
-좋은 방법이라 은근히 많이 사용되는 잔스킬입니다.
+	// 음.. 더 좋은 방법이 없을까요?
+	return parseInt(thing, 10);
+};
 
-같은 맥락에서 아래 것들도 같은 작용을 합니다.
+// 정수로 바꾼다! (32 bit!)
+clean.to.integer32 = function(thing) {
+	//REQUIRED: thing: 변경할 대상
 
-~~v	// bitwise NOT
-v<<0	// bitwise shift
-*/
+	/*
+	 js의 비트연산자는 기본적으로 32비트 signed int를 대상으로 합니다.
+	 피연산자가 다른 형식일 경우 자동으로 해당 형식으로 변환한 뒤 연산
+	 을 시도하구요.  이 과정이 단순히 parseInt를 사용하는지는 모르겠는
+	 데, "0xff"같은 문자열도 16진수로 변환해서 처리를 해주더라구요. 스
+	 펙문서를 제가 못 찾은건지 그건 확인을 못 해봤지만,  어쨌든 그래서
+	 비트연산의 대상이 되면 소수점같은거 없는 깔끔한 정수가 됩니다.
+
+	 또한, 반환값도 당연히 32비트 정수로 정해져 있기 때문에  null  NaN
+	 undefined infinity 그런거 없이 무조건 0을 반환합니다.  예외도 발생
+	 시키지 않구요.   이는 어떠한 값을 "반드시 정수일 것을 보장" 하기에
+	 좋은 방법이라 은근히 많이 사용되는 잔스킬입니다.
+
+	 같은 맥락에서 아래 것들도 같은 작용을 합니다.
+
+	 ~~v	// bitwise NOT
+	 v<<0	// bitwise shift
+	 */
 	return thing | 0;
 };
 

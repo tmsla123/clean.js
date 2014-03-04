@@ -1,8 +1,8 @@
-// 요기는 패키지 정보를 담고있어요.
+// 요기는 namespace 정보를 담고있어요.
 // 헤헤
 
 var
-// root package
+// root
 clean;
 
 // 패키지 정보에요!
@@ -12,10 +12,11 @@ clean;
 
 	// 데이터 처리
 	object : {},
+	func : {},
 	array : {},
 	date : {},
 	string : {},
-	number : {},
+	integer : {},
 	bool : {},
 
 	// helpers
@@ -25,11 +26,17 @@ clean;
 	helper : {},
 
 	// 브라우저 전용 패키지들
-	dom : {},
+	dom : {
+		effect : {}
+	},
 	cookie : {},
+	ajax : {},
 
 	// 모듈
-	module : {}
+	module : {},
+
+	// 다국어 지원 (i18n)
+	korean : {}
 };
 
 // node.js에서 실행하면 node.js 모듈로 넘겨요!

@@ -15,7 +15,7 @@ clean.array.find = function(array, check) {
 
 			// 값을 삽입!
 			find = value;
-			
+
 			// each 종료!
 			return;
 		}
