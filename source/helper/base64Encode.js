@@ -1,4 +1,5 @@
 clean.helper.base64Encode = function(input) {
+	//REQUIRED: input
 	
 	 input = escape(input);
      var output = "";
@@ -32,4 +33,4 @@ clean.helper.base64Encode = function(input) {
      } while (i < input.length);
 
      return output;
-}
+};
