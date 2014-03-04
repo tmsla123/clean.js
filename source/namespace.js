@@ -31,6 +31,7 @@ clean;
 	},
 	cookie : {},
 	ajax : {},
+	websocket : {},
 
 	// 모듈
 	module : {},
