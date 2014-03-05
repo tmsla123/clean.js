@@ -35,27 +35,19 @@ clean.ajax.get = function(url, method, callback) {
 		}
 	};
 
-	if (method.toUpperCase() === 'GET') {
+	method = method.toUpperCase();
 
-		httpRequest.open('GET', url);
+	switch(method){
+	case 'GET':
+		httpRequest.open(method, url);
 		httpRequest.send();
-
-	} else if (method.toUpperCase() === 'POST') {
-
-		httpRequest.open('POST', url.substring(0, url.indexOf('?')));
+		break;
+	case 'POST':
+	case 'PUT':
+	case 'DELETE':
+		httpRequest.open(method, url.substring(0, url.indexOf('?')));
 		httpRequest.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 		httpRequest.send(url.substring(url.indexOf('?') + 1));
-
-	} else if (method.toUpperCase() === 'PUT') {
-
-		httpRequest.open('PUT', url.substring(0, url.indexOf('?')));
-		httpRequest.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-		httpRequest.send(url.substring(url.indexOf('?') + 1));
-
-	} else if (method.toUpperCase() === 'DELETE') {
-
-		httpRequest.open('DELETE', url.substring(0, url.indexOf('?')));
-		httpRequest.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-		httpRequest.send(url.substring(url.indexOf('?') + 1));
+		break;
 	}
 };
